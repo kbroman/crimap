@@ -496,12 +496,12 @@ print_map(names,indices,flag)
               printf("%3d   %-20s",i + 1, names[indices[i]]);
 
           for(k=0; k< theta->num_types; k++){
-             printf("     %6.1f                    ",cum[k]);
+             printf("       %7.2f                    ",cum[k]);
              cum[k]+= kosambi(theta->data[k][i][0]);
           }
           printf("\n");
           for (j=0; j < theta->num_types; j++){
-             printf("                    %4.2f%c%6.1f",theta->data[j][i][0],
+             printf("                    %5.3f%c%7.2f",theta->data[j][i][0],
 		    FIXED_INTERVALS[j][i]?'*':' ',kosambi(theta->data[j][i][0]) );
           }
           printf("\n");
@@ -510,7 +510,7 @@ print_map(names,indices,flag)
       else printf("%3d   %-20s",i + 1, names[indices[i]]);
 
       for (j=0; j < theta->num_types; j++)
-         printf("     %6.1f                    ",cum[j]);
+         printf("       %7.2f                    ",cum[j]);
 
       printf("\n\n* denotes recomb. frac. held fixed in this analysis\n");
 }

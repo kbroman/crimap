@@ -72,7 +72,7 @@ twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, chrom_data)
             printf("\n%s   %s  rec. fracs.= ",chrom_data->locus_names[pair[0]],
                   chrom_data->locus_names[pair[1]]);
     	    for(i_type = 0; i_type < num_types; i_type++)
-                printf("  %5.2f", theta_copy[i_type]);
+                printf("  %6.3f", theta_copy[i_type]);
             printf(",   lods =  %6.2f", lods);
 
     	    for(i_type = 0; i_type < num_types; i_type++){
