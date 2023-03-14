@@ -1,6 +1,6 @@
 #if vms
 #include stdio
-#include ctype  
+#include ctype
 #else
 #include <stdio.h>
 #include <ctype.h>
@@ -14,7 +14,7 @@
 #define  MAX_STR_LEN 30
 #define  MAX_HAP_SIZE 40
 
-struct loci_data *recs, *nrecs, *theta, *theta_t, *recs_temp, 
+struct loci_data *recs, *nrecs, *theta, *theta_t, *recs_temp,
    *nrecs_temp,  *num_mei, *num_mei_split, *pk_recs, *pk_nrecs, *theta_1_t;
 
 
@@ -61,13 +61,13 @@ SHORT *ordered_loci;
 #define ALL          6
 #define TWOPOINT     7
 #define CHROMPIC     8
- 
+
 main(argc,argv)
 SHORT argc;
 char *argv[];
 {
      struct loci_orders *orders_orig, *orders, *orders_list;
-     SHORT *sorted_list, *new_order;     
+     SHORT *sorted_list, *new_order;
      FILE *fp_data, *fp_param, *fp_orders;
      SHORT i, j, num_to_flip, num_loci, num_its;
      double *likelihoods;
@@ -117,13 +117,13 @@ char *argv[];
        var_name[5] = 0;
        if (!strcmp(var_name,"flips")) {
     /*for option flipsn, parse to get no. to flip*/
-	 choice = FLIPS;
-	 if (5 == strlen(*(argv+2))) num_to_flip = 2;
-	 else sscanf(*(argv+2),"flips%hd", &num_to_flip);
+     choice = FLIPS;
+     if (5 == strlen(*(argv+2))) num_to_flip = 2;
+     else sscanf(*(argv+2),"flips%hd", &num_to_flip);
        }
        else {
-	 printf("\nERROR: %s is not an option\n",*(argv+2));
-	 exit(1);
+     printf("\nERROR: %s is not an option\n",*(argv+2));
+     exit(1);
        }
      }
 
@@ -137,20 +137,20 @@ char *argv[];
        exit(1);
      }
      num_ordered = num_inserted = 0;
-     ordered_loci = (SHORT *)our_orders_alloc((ALLOC)MAX_NUM_LOCI * sizeof(SHORT)); 
+     ordered_loci = (SHORT *)our_orders_alloc((ALLOC)MAX_NUM_LOCI * sizeof(SHORT));
      set_null_hap();
      set_null_fixed();
      if (fp_param) {
        strcpy(var_name, "null");
        fscanf(fp_param, "%s", curr_string);
        for (; strcmp(curr_string, "END"); fscanf(fp_param, "%s", curr_string))
-	 if (read_variables(curr_string, var_name)) {
-	   if (choice == PREPARE) break;
-	   else {
-	     printf("\nERROR: Run prepare to create a new .par file\n");
-	     exit(1);
-	   }
-	 }
+     if (read_variables(curr_string, var_name)) {
+       if (choice == PREPARE) break;
+       else {
+         printf("\nERROR: Run prepare to create a new .par file\n");
+         exit(1);
+       }
+     }
        fclose(fp_param);
      }
 
@@ -161,14 +161,14 @@ char *argv[];
      /*modify values in .par file: haplotypes used only if use_haps = 1;
        fixed_distances only apply to FIXED and CHROMPIC; use_ord_file value
        only applies to FLIPS and ALL; write_ord_file value only applies to BUILD */
-     if (!use_haps) set_null_hap(); 
+     if (!use_haps) set_null_hap();
      if (choice != FIXED && choice != CHROMPIC) set_null_fixed();
      if (choice == BUILD || choice == QUICK || choice == INSTANT)
        use_ord_file = 1;
      else if (choice == FIXED || choice == CHROMPIC || choice == TWOPOINT)
        use_ord_file = 0;
      write_ord_file = write_ord_file && choice == BUILD;
-     
+
      ctemp = (char *)our_alloc((ALLOC)nb_our_alloc);/*allocate initial memory block*/
      our_free(ctemp);
 
@@ -176,7 +176,7 @@ char *argv[];
      if(!(fp_data = fopen(dat_file,"r"))){
        printf("\nERROR: Can't open .dat file: %s ; run prepare to convert .gen file to .dat file\n",dat_file);
        exit(1);
-     } 
+     }
      pk_chrom_data = (struct chrom_data *)our_alloc((ALLOC)sizeof(struct chrom_data));
      read_file(fp_data,pk_chrom_data);
      puk_chrom_data = (struct chrom_data *)our_alloc((ALLOC)sizeof(struct chrom_data));
@@ -188,7 +188,7 @@ char *argv[];
      print_variables();
      print_haps(puk_chrom_data->locus_names);
      print_fixed();
-     
+
      /*delete secondary haplotyped loci from locus lists*/
      num_ordered = delete_hap(ordered_loci, num_ordered);
      num_inserted = delete_hap(inserted_loci, num_inserted);
@@ -196,29 +196,29 @@ char *argv[];
 
      if (use_ord_file) { /*read .ord file into a list of orders objects*/
        if(!(fp_orders = fopen(ord_file, "r"))){
-	 printf("\nERROR: can't open %s\n",ord_file);
-	 exit(1);
+     printf("\nERROR: can't open %s\n",ord_file);
+     exit(1);
        }
        read_orders_file(fp_orders, &orders_list);
        fclose(fp_orders);
      }
      if (write_ord_file) { /*open .ord file for writing*/
-     	if(!(fp_orders = fopen(ord_file, "w"))){
+        if(!(fp_orders = fopen(ord_file, "w"))){
           printf("\nERROR: can't write to the .ord file %s; run prepare to create it\n",ord_file);
           exit(1);
         }
-	fclose(fp_orders);
+    fclose(fp_orders);
       }
 
      /*initialize the interval and switch objects, allocate global parameters*/
      make_int_switch_vec();
      malloc_global(2 - SEX_EQ, 1);
      fam_likes = (double *)our_alloc((ALLOC)(puk_chrom_data->num_fams) *
-				     sizeof(double));
+                     sizeof(double));
      if (choice == BUILD || choice == ALL || choice == INSTANT || choice == QUICK) {
        if (num_ordered < 2){
-	 printf("\n\nERROR: fewer than 2 ordered loci after deleting 2dary haplotyped loci");
-	 exit(1);
+     printf("\n\nERROR: fewer than 2 ordered loci after deleting 2dary haplotyped loci");
+     exit(1);
        }
        /*set up initial orders object (from the ordered loci) */
        orders_array = (SHORT **)our_orders_alloc((ALLOC)sizeof(SHORT *));
@@ -228,7 +228,7 @@ char *argv[];
        copy_orders(orders,orders_orig);
 
        /*print out a sorted list of the loci in the analysis, followed by the
-	 indices of the ordered and inserted loci*/
+     indices of the ordered and inserted loci*/
        sorted_list = (SHORT *)our_orders_alloc((ALLOC)num_loci*sizeof(SHORT));
        for(i = 0; i < num_ordered; i++) sorted_list[i] = orders_array[0][i];
        for(j = 0; j < num_inserted; j++, i++) sorted_list[i] = inserted_loci[j];
@@ -245,47 +245,47 @@ char *argv[];
        print_names(puk_chrom_data->locus_names,ordered_loci,num_ordered,1,1);
      else if (choice == TWOPOINT) {
        if (num_ordered)
-	 print_names(puk_chrom_data->locus_names,ordered_loci,num_ordered,5,0);
+     print_names(puk_chrom_data->locus_names,ordered_loci,num_ordered,5,0);
        if (num_ordered && num_inserted)
-	 printf("\n\nAGAINST:\n\n");
+     printf("\n\nAGAINST:\n\n");
        if (num_inserted)
-	 print_names(puk_chrom_data->locus_names,inserted_loci,num_inserted,5,0);
+     print_names(puk_chrom_data->locus_names,inserted_loci,num_inserted,5,0);
      }
 
      if (choice == BUILD) {
-       comp_ords_build_map(write_ord_file ? ord_file: "", orders, pk_chrom_data, 
-     			puk_chrom_data,	inserted_loci,num_inserted,&orders_list);
-       printf("\n\n\n"); 
+       comp_ords_build_map(write_ord_file ? ord_file: "", orders, pk_chrom_data,
+                puk_chrom_data,	inserted_loci,num_inserted,&orders_list);
+       printf("\n\n\n");
        print_results1(orders_orig, puk_chrom_data, inserted_loci, num_inserted,
             orders_list,1,sorted_list,(char)SEX_EQ);
       }
-      else if (choice == INSTANT || choice == QUICK) {    
+      else if (choice == INSTANT || choice == QUICK) {
          free_orders(orders);
          print_results1(orders_orig, puk_chrom_data, inserted_loci, num_inserted,
                 orders_list, (choice == INSTANT),sorted_list,(char)SEX_EQ);
       }
       else if (choice == ALL) {
          orders = get_all_orders(orders,inserted_loci,num_inserted );
-	 if (use_ord_file) test_and_compress(orders, orders_list);
+     if (use_ord_file) test_and_compress(orders, orders_list);
          likelihoods = get_likelihoods(mle,orders,puk_chrom_data);
          print_best_orders(orders,likelihoods, PUK_LIKE_TOL);
        }
       else if (choice == FIXED || choice == CHROMPIC) {
-	new_order = insert_hap(ordered_loci, num_ordered, &num_ordered, &dum_index);
-	if (choice == FIXED) llike = mle(&num_its, new_order, num_ordered,
-					 puk_chrom_data, &num_tswitch_elim);
-	else llike = chrompics_mle(&num_its, new_order, num_ordered,
-				   puk_chrom_data, &num_tswitch_elim);
-	print_map(puk_chrom_data->locus_names,new_order, (choice == CHROMPIC));
+    new_order = insert_hap(ordered_loci, num_ordered, &num_ordered, &dum_index);
+    if (choice == FIXED) llike = mle(&num_its, new_order, num_ordered,
+                     puk_chrom_data, &num_tswitch_elim);
+    else llike = chrompics_mle(&num_its, new_order, num_ordered,
+                   puk_chrom_data, &num_tswitch_elim);
+    print_map(puk_chrom_data->locus_names,new_order, (choice == CHROMPIC));
          printf("\n\nlog10_like = %.3f\n\n",llike);
       }
       else if (choice == FLIPS) {
-	printf("\nnumber of loci to flip = %d\n", num_to_flip);
-	flipsn(ordered_loci,num_ordered,puk_chrom_data,num_to_flip,
-	       use_ord_file, orders_list);
+    printf("\nnumber of loci to flip = %d\n", num_to_flip);
+    flipsn(ordered_loci,num_ordered,puk_chrom_data,num_to_flip,
+           use_ord_file, orders_list);
        }
       else if (choice == TWOPOINT) {
-	twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, puk_chrom_data);
+    twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, puk_chrom_data);
        }
      return;
 }
@@ -312,7 +312,7 @@ set_defaults(cp)
     sprintf(dat_file,"%sdat",cp);
     sprintf(gen_file,"%sgen",cp);
   }
-  
+
   nb_our_alloc = D_nb_our_alloc;
   use_ord_file = D_use_ord_file;
   write_ord_file = D_write_ord_file;
@@ -385,7 +385,7 @@ char read_variables(curr_string, var_name)
   static double fixed_dist;
   static SHORT hap_list[MAX_HAP_SIZE], fixed_list[3];
   static char fix_zero;
-  
+
   if (!strcmp(var_name, "null")) {
     strcpy(var_name, curr_string);
     num_in_hap = num_fixed = fix_zero = 0;
@@ -393,7 +393,7 @@ char read_variables(curr_string, var_name)
       strcpy(var_name,"hap_sys");
       fix_zero = 1;
     }
-  }    
+  }
   else if (!strcmp(curr_string, "*")) {
     if (!strcmp(var_name, "hap_sys")) read_haps(hap_list, num_in_hap, fix_zero);
     else if (!strcmp(var_name, "fixed_dist")) read_fixed(fixed_list, fixed_dist, num_fixed);
@@ -444,13 +444,13 @@ short_sort(v, n)
 {
   SHORT gap,i,j;
   SHORT temp;
-  
+
   for(gap= n/2; gap > 0; gap /=2)
     for(i=gap; i < n; i++)
       for(j= i-gap; j >=0 && v[j]>v[j+gap]; j -=gap){
-	temp = v[j];
-	v[j] = v[j+gap];
-	v[j+gap] = temp;
+    temp = v[j];
+    v[j] = v[j+gap];
+    v[j+gap] = temp;
       }
 }
 
@@ -478,16 +478,16 @@ print_map(names,indices,flag)
       SHORT flag;
 /* displays map of loci; if flag = 0, original indices are displayed, otherwise
      origin 1 numbering starting with first locus in list
-*/       
+*/
 {
       SHORT i, j, k;
       double cum[2];
       double kosambi();
 
-      cum[0] = cum[1] = 0.0;     
+      cum[0] = cum[1] = 0.0;
       if (theta->num_types == 2) printf("\n\nSex-specific ");
       else printf("\n\nSex_averaged ");
-      printf("map (recomb. frac., Kosambi cM"); 
+      printf("map (recomb. frac., Kosambi cM");
       if (theta->num_types == 2) printf(" -- female, male ");
       printf("):\n\n");
       for (i = 0; i < theta->n; i++){
@@ -502,7 +502,7 @@ print_map(names,indices,flag)
           printf("\n");
           for (j=0; j < theta->num_types; j++){
              printf("                    %5.3f%c%7.2f",theta->data[j][i][0],
-		    FIXED_INTERVALS[j][i]?'*':' ',kosambi(theta->data[j][i][0]) );
+            FIXED_INTERVALS[j][i]?'*':' ',kosambi(theta->data[j][i][0]) );
           }
           printf("\n");
       }
@@ -534,7 +534,7 @@ prepare()
   SHORT *count_meioses();
   char curr_string[MAX_STR_LEN], var_name[MAX_STR_LEN];
   char read_variables();
-  
+
   /*create new .dat file from .gen file, if none exists or if user desires it*/
   flag = 0;
   if (!(fp = fopen(dat_file, "r"))) printf("\nNo .dat file named %s\n",dat_file);
@@ -548,7 +548,7 @@ prepare()
     printf("\n\nUse existing .dat file %s? (y/n) ",dat_file);
     scanf("%s",ans);
     flag = (ans[0] != 'y' && ans[0] != 'Y');
-    if(flag){ 
+    if(flag){
       printf("\nAre you sure you want to delete file %s? (y/n) ",dat_file);
       scanf("%s",ans);
       flag = (ans[0] == 'y' || ans[0] == 'Y');
@@ -560,7 +560,7 @@ prepare()
   chrom_data = (struct chrom_data *)our_alloc((ALLOC)sizeof(struct chrom_data));
   pk_chrom_data = (struct chrom_data *)our_alloc((ALLOC)sizeof(struct chrom_data));
   data = (struct data *)our_alloc((ALLOC)sizeof(struct data));
-  
+
   if (flag) {
     printf("\n\nCreating .dat file %s from .gen file %s\n",dat_file,gen_file);
     read_gen_file(gp,data,(char)1);
@@ -584,7 +584,7 @@ prepare()
     our_free(pk_info);
     our_free(puk_info);
   }
-    
+
   printf("\n\n");
   /*display default (or previous .par file) values for parameters, and change them
     if user desires*/
@@ -661,7 +661,7 @@ prepare()
   /*determine which option will be run next*/
   printf("\nThe crimap options are:\n\n[1] build  [2] instant  [3] quick  [4] fixed \n");
   printf("\n[5] flips  [6] all  [7] twopoint  [8] chrompic\n");
-  
+
   printf("\n\nEnter the number of the option you will be running next: ");
   scanf("%d",&choice);
   printf("\n\n");
@@ -695,7 +695,7 @@ prepare()
       if(ans[0] != 'y' && ans[0] != 'Y') ordered_flag = 1;
     }
     else ordered_flag = 1;
-  } 
+  }
   else if (choice == TWOPOINT){
     printf("\nDo you wish to compute LOD tables for ALL pairs of loci? (y/n)");
     scanf("%s",ans);
@@ -750,10 +750,10 @@ the inserted loci.  To force this, enter sort_loci.");
   printf("\n\n Now specify loci as above (type done when you are finished)");
   strcpy(var_name, "null");
   scanf("%s", curr_string);
-  
+
   for (; strcmp(curr_string, "done"); scanf("%s", curr_string))
     read_variables(curr_string, var_name);
-*/  
+*/
 
   if (choice == BUILD) {
     /* now set up orders_file */
@@ -764,19 +764,19 @@ the inserted loci.  To force this, enter sort_loci.");
       printf("\n\nUse existing orders file? (y/n) ");
       scanf("%s",ans);
       if(ans[0] != 'y' && ans[0] != 'Y'){
-	printf("\nAre you sure you want to delete the existing file? (y/n) ");
-	scanf("%s",ans);
-	if(ans[0] == 'y' || ans[0] == 'Y') flag = 1;
-      }	
+    printf("\nAre you sure you want to delete the existing file? (y/n) ");
+    scanf("%s",ans);
+    if(ans[0] == 'y' || ans[0] == 'Y') flag = 1;
+      }
     }
     if (flag && num_ordered > 2) {
       printf("\nDo you really want to assume this order for the %d ordered loci? (y/n) ",
-	     num_ordered);
+         num_ordered);
       scanf("%s",ans);
       if(ans[0] != 'y' && ans[0] != 'Y') {
-	printf("\nNo new orders file will being created now. Use prepare to respecify");
-	printf("\nthe ordered loci");
-	flag = 0;
+    printf("\nNo new orders file will being created now. Use prepare to respecify");
+    printf("\nthe ordered loci");
+    flag = 0;
       }
     }
     if (flag) {
@@ -788,7 +788,7 @@ the inserted loci.  To force this, enter sort_loci.");
       printf("\nDone.\n");
     }
   }
-  
+
   /* Write new .par file */
   printf("\n\n\nOK to set up new parameter file? (y/n) ");
   scanf("%s",ans);
@@ -816,7 +816,7 @@ print_loci(data,out_file,puk_info,pk_info)
 {
   SHORT i;
   FILE *fp, *fopen();
-  
+
   if(!(fp = fopen(out_file,"w")))
     printf("\nUnable to create file with locus names\n");
   else {
@@ -825,8 +825,8 @@ print_loci(data,out_file,puk_info,pk_info)
     fprintf(fp,"                       #inf. mei.    #inf. mei.(phase known)\n");
     for(i = 0; i < data->num_loci; i++)
       fprintf(fp,"%3d  %-20s %4d          %4d\n", i, data->locus_names[i], puk_info[i],
-	      pk_info[i]);
+          pk_info[i]);
     fclose(fp);
   }
   return;
-} 
+}

@@ -12,7 +12,7 @@
 
 static struct tswitchs **s_list, **e_list;
 static struct tswitchs *swit_list[100];
-static SHORT *s_inds, *e_inds, *cvec; 
+static SHORT *s_inds, *e_inds, *cvec;
 
 find_score(iorder, num_flanks, sw_list, s_vec)
    SHORT *iorder, *s_vec;
@@ -42,7 +42,7 @@ find_score(iorder, num_flanks, sw_list, s_vec)
              for (jind = max_index; jind > min_index; jind--) s_vec[jind] += 1;
 */
 /*
-             s_vec[max_index + 1] -= 1; 
+             s_vec[max_index + 1] -= 1;
              s_vec[min_index + 1] += 1;
 */
              for (i = min_index + 1; s_vec[i]; i++);
@@ -66,7 +66,7 @@ quick_find_score(num_flanks)
 
    jind = 0;
    cvec[0] = 0;
-   for (i = 1; i < num_flanks; i++) cvec[i] = jind += 
+   for (i = 1; i < num_flanks; i++) cvec[i] = jind +=
               (s_list[i - 1] != 0) - (e_list[i - 1] != 0);
 }
 
@@ -76,7 +76,7 @@ LINDEX compute_score(num_flanks)
    SHORT i;
    LINDEX x;
 
-   quick_find_score(num_flanks); 
+   quick_find_score(num_flanks);
 
    x = 0;
    for (i = 0; i < num_flanks; i++) {
@@ -149,8 +149,8 @@ restart:
                for (i = start; i <= n_ints - n; i += n)
                    for (k = 0; k < n; k++)
                        itemp[k + i] = i + perm[k];
-               for (; i < n_ints; i++) itemp[i] = i;         
-               
+               for (; i < n_ints; i++) itemp[i] = i;
+
                find_score(itemp, num_flanks, sw_list, ctemp);
                num_its++;
                for (i = start; i <=n_ints - n; i += n){
@@ -177,16 +177,16 @@ restart:
                            i_int->sort_index = i + perm[k];
                        }
                        for (k = 0; k < n; k++) list[i + perm[k]] = temp[k];
-                       change_se(i, i + n); 
+                       change_se(i, i + n);
                    }
                }
                if (loc_flag) {
                    flag = 1;
-                   quick_find_score(num_flanks); 
+                   quick_find_score(num_flanks);
                }
 /*
                if (flag) {
-                   printf("\n %ld %d %d %d", ctot, n, start, offset);  
+                   printf("\n %ld %d %d %d", ctot, n, start, offset);
                    goto restart;
                }
 */
@@ -205,7 +205,7 @@ restart:
 make_equiv_classes(sw_list, ival_list, sort_list)
      struct tswitch_list *sw_list;
      struct interval_list *ival_list;
-     struct intervals **sort_list; 
+     struct intervals **sort_list;
 {
     SHORT num_sw, num_int, i, j, k, index, max_ind, temp;
     SHORT *ind_sw, *ind_int, *count;
@@ -215,7 +215,7 @@ make_equiv_classes(sw_list, ival_list, sort_list)
     SHORT our_free();
     char *our_alloc();
 
-    num_sw = sw_list->num_tswitchs;   
+    num_sw = sw_list->num_tswitchs;
     num_int = ival_list->num_intervals;
     ind_sw = (SHORT *)our_alloc((ALLOC)num_sw * sizeof(SHORT));
     ind_int = (SHORT *)our_alloc((ALLOC)num_int * sizeof(SHORT));
@@ -223,24 +223,24 @@ make_equiv_classes(sw_list, ival_list, sort_list)
 
     for (i = 0; i < num_sw; i++) ind_sw[i] = i;
     for (i = 0; i < num_int; i++) ind_int[i] = -1;
-    for (j = 0, i_sw = sw_list->first_tswitch; i_sw; 
+    for (j = 0, i_sw = sw_list->first_tswitch; i_sw;
                 i_sw = i_sw->next_tswitch, j++)
         for (i_int = i_sw->first_ptr; i_int; i_int = i_int->next_ptr){
             index = i_int->interval->sort_index;
             if ( (k = ind_int[index]) >= 0) {
-                i = k;  
+                i = k;
                 while (i != ind_sw[i]){
                    temp = i;
                    i = ind_sw[i];
-                   ind_sw[temp] = j; 
+                   ind_sw[temp] = j;
                 }
                 ind_sw[i] = j;
             }
             ind_int[index] = j;
         }
-    for (j = 0; j < num_sw; j++){    
+    for (j = 0; j < num_sw; j++){
             count[j] = 0;
-            while (ind_sw[j] != ind_sw[ind_sw[j]]) 
+            while (ind_sw[j] != ind_sw[ind_sw[j]])
                    ind_sw[j] = ind_sw[ind_sw[j]];
     }
     for (i = 0; i < num_int; i++) {
@@ -248,7 +248,7 @@ make_equiv_classes(sw_list, ival_list, sort_list)
             count[ind_int[i]] += 1;
     }
     max_ind = 0;
-    for (j = 0; j < num_sw; j++) 
+    for (j = 0; j < num_sw; j++)
         if (count[j]) {
             temp = count[j];
             count[j] = max_ind;
@@ -259,8 +259,8 @@ make_equiv_classes(sw_list, ival_list, sort_list)
         ind_int[i] = count[temp];
         count[temp] += 1;
     }
-    for (i_ival = ival_list->first_interval; i_ival; 
-               i_ival = i_ival->next_interval) { 
+    for (i_ival = ival_list->first_interval; i_ival;
+               i_ival = i_ival->next_interval) {
         i_ival->sort_index = ind_int[i_ival->sort_index];
         sort_list[i_ival->sort_index] = i_ival;
     }
@@ -302,9 +302,9 @@ find_start_end(i_sw, start, end)
 
      i_int = i_sw->first_ptr;
      max = min = i_int->interval->sort_index;
- 
+
      for (i_int = i_int->next_ptr; i_int; i_int = i_int->next_ptr) {
-         index = i_int->interval->sort_index; 
+         index = i_int->interval->sort_index;
          if (max < index) max = index;
          else if (min > index) min = index;
      }
@@ -317,9 +317,9 @@ alloc_se_list(num_ints)
 {
      char *our_alloc();
 
-     s_list = (struct tswitchs **)our_alloc((ALLOC)num_ints * 
+     s_list = (struct tswitchs **)our_alloc((ALLOC)num_ints *
              sizeof(struct tswitchs *));
-     e_list = (struct tswitchs **)our_alloc((ALLOC)num_ints * 
+     e_list = (struct tswitchs **)our_alloc((ALLOC)num_ints *
              sizeof(struct tswitchs *));
      s_inds = (SHORT *)our_alloc((ALLOC)num_ints * sizeof(SHORT));
      e_inds = (SHORT *)our_alloc((ALLOC)num_ints * sizeof(SHORT));
@@ -334,8 +334,8 @@ free_se_list()
      our_free(s_list);
      our_free(e_list);
      our_free(e_inds);
-     our_free(s_inds); 
-     our_free(cvec); 
+     our_free(s_inds);
+     our_free(cvec);
 
 }
 
@@ -359,37 +359,37 @@ align_se(i_sw)
      struct tswitchs *j_sw;
      char reset;
 
-           find_start_end(i_sw, &start, &end);     
+           find_start_end(i_sw, &start, &end);
 restart:
            reset = 0;
-           if (j_sw = s_list[start]) {  
+           if (j_sw = s_list[start]) {
                if (e_inds[start] > end) {
                    add_tswitchs(i_sw, j_sw);
                    s_list[start] = 0;
                    e_list[e_inds[start]] = 0;
                    s_inds[e_inds[start]] = 0;
-                   e_inds[start] = 0;               
+                   e_inds[start] = 0;
                    align_se(j_sw);
                }
                else {
                    add_tswitchs(s_list[start], i_sw);
-                   find_start_end(i_sw, &start, &end);     
+                   find_start_end(i_sw, &start, &end);
                    reset = 1;
                }
            }
 
-           if (j_sw = e_list[end]) {  
+           if (j_sw = e_list[end]) {
                if (s_inds[end] < start) {
                    add_tswitchs(i_sw, j_sw);
                    e_list[end] = 0;
                    s_list[s_inds[end]] = 0;
                    e_inds[s_inds[end]] = 0;
-                   s_inds[end] = 0;               
+                   s_inds[end] = 0;
                    align_se(j_sw);
                }
                else {
                    add_tswitchs(e_list[end], i_sw);
-                   find_start_end(i_sw, &start, &end);     
+                   find_start_end(i_sw, &start, &end);
                    reset = 1;
                }
            }
@@ -408,8 +408,8 @@ compress_basis(sw_list, num_ints, inverse)
      struct intervals **inverse;
 {
      SHORT i, j, k, m, last_e, new_start, new_end, index;
-     SHORT e_count, s_count, max, maxk, temp; 
-     SHORT count[4]; 
+     SHORT e_count, s_count, max, maxk, temp;
+     SHORT count[4];
      struct intervals **temp_ival;
      char *our_alloc();
      char *ilist;
@@ -417,20 +417,20 @@ compress_basis(sw_list, num_ints, inverse)
      struct intervals *ival;
      struct interval_ptrs *i_int;
      struct tswitchs *i_sw, *j_sw;
- 
+
      ilist = (char *)our_alloc((ALLOC)num_ints * sizeof(char));
-     temp_ival = (struct intervals **)our_alloc((ALLOC)num_ints * 
+     temp_ival = (struct intervals **)our_alloc((ALLOC)num_ints *
             sizeof(struct intervals *));
      for (i = 0; i < num_ints; i++) ilist[i] = 0;
 
-     for (i = num_ints - 1; i >= 0; i--) 
+     for (i = num_ints - 1; i >= 0; i--)
          if (i_sw = s_list[i]) {
               e_count = s_count = 0;
-              for (j = i; j < num_ints; j++) { 
+              for (j = i; j < num_ints; j++) {
                   if (s_list[j]) {
                       if (e_count || s_count == 2) break;
                       if (s_count && e_list[j]) break;
-                      if (s_count) j_sw = s_list[j]; 
+                      if (s_count) j_sw = s_list[j];
                       ++s_count;
                   }
                   if (e_list[j]) {
@@ -440,22 +440,22 @@ compress_basis(sw_list, num_ints, inverse)
                           break;
                       }
                   }
-              } 
+              }
               if (j <= i + 1) continue;
               for (i_int = i_sw->first_ptr; i_int; i_int = i_int->next_ptr) {
-                  index = i_int->interval->sort_index; 
+                  index = i_int->interval->sort_index;
                   if ((index >= i) && index < j) ilist[index] = 1;
               }
               if (s_count == 2) {
                  for (i_int = j_sw->first_ptr; i_int; i_int = i_int->next_ptr) {
-                     index = i_int->interval->sort_index; 
+                     index = i_int->interval->sort_index;
                      if ((index >= i) && index < j) ilist[index] += 2;
                  }
                  for (k = 0; k < 4; k++) count[k] = 0;
                  for (k = i; k < j; k++)  count[ilist[k]] += 1;
                  max = count[1];
                  maxk = 1;
-                 for (k = 2; k < 4; k++) 
+                 for (k = 2; k < 4; k++)
                      if (count[k] > max) {
                           max = count[k];
                           maxk = k;
@@ -472,14 +472,14 @@ compress_basis(sw_list, num_ints, inverse)
                      temp = count[ilist[k]];
                      temp_ival[temp] = inverse[k];
                      inverse[k]->sort_index = temp;
-                     count[ilist[k]] += 1;           
+                     count[ilist[k]] += 1;
                  }
                  for (k = i; k < j; k++) inverse[k] = temp_ival[k];
                  change_se(i, j);
               }
               else {
                  new_start = i;
-              
+
                  for (k = i + 1; k < j; k++)
                      if (!ilist[k]) {
                          ival = inverse[k];
@@ -489,14 +489,14 @@ compress_basis(sw_list, num_ints, inverse)
                          }
                          ival->sort_index = new_start;
                          inverse[new_start] = ival;
-                         new_start++; 
+                         new_start++;
                      }
                  if (new_start > i) {
                      if (e_count) change_se(i, j);
                      else {
                          s_list[new_start] = s_list[i];
                          e_inds[new_start] = e_inds[i];
-                         s_inds[e_inds[i]] = new_start;   
+                         s_inds[e_inds[i]] = new_start;
                          s_list[i] = 0;
                          e_inds[i] = 0;
                      }
@@ -506,14 +506,14 @@ compress_basis(sw_list, num_ints, inverse)
          }
 
      last_e = -1;
-     for (i = 0; i < num_ints; i++) 
+     for (i = 0; i < num_ints; i++)
          if (i_sw = e_list[i]) {
               e_count = s_count = 0;
-              for (j = i; j >= 0; j--) { 
+              for (j = i; j >= 0; j--) {
                   if (e_list[j]) {
                       if (s_count || e_count == 2) break;
                       if (e_count && s_list[j]) break;
-                      if (e_count) j_sw = e_list[j]; 
+                      if (e_count) j_sw = e_list[j];
                       ++e_count;
                   }
                   if (s_list[j]) {
@@ -523,22 +523,22 @@ compress_basis(sw_list, num_ints, inverse)
                           break;
                       }
                   }
-              } 
+              }
               if (j >= i - 1) continue;
               for (i_int = i_sw->first_ptr; i_int; i_int = i_int->next_ptr) {
-                  index = i_int->interval->sort_index; 
+                  index = i_int->interval->sort_index;
                   if ((index <= i) && index > j) ilist[index] = 1;
               }
               if (e_count == 2) {
                  for (i_int = j_sw->first_ptr; i_int; i_int = i_int->next_ptr) {
-                     index = i_int->interval->sort_index; 
+                     index = i_int->interval->sort_index;
                      if ((index <= i) && index > j) ilist[index] += 2;
                  }
                  for (k = 0; k < 4; k++) count[k] = 0;
                  for (k = i; k > j; k--)  count[ilist[k]] += 1;
                  max = count[1];
                  maxk = 1;
-                 for (k = 2; k < 4; k++) 
+                 for (k = 2; k < 4; k++)
                      if (count[k] > max) {
                           max = count[k];
                           maxk = k;
@@ -556,14 +556,14 @@ compress_basis(sw_list, num_ints, inverse)
                      temp = count[ilist[k]];
                      temp_ival[temp] = inverse[k];
                      inverse[k]->sort_index = temp;
-                     count[ilist[k]] -= 1;           
+                     count[ilist[k]] -= 1;
                  }
                  for (k = i; k > j; k--) inverse[k] = temp_ival[k];
                  change_se(j + 1, i + 1);
               }
               else {
                  new_end = i;
-              
+
                  for (k = i - 1; k > j; k--)
                      if (!ilist[k]) {
                          ival = inverse[k];
@@ -573,7 +573,7 @@ compress_basis(sw_list, num_ints, inverse)
                          }
                          ival->sort_index = new_end;
                          inverse[new_end] = ival;
-                         new_end--; 
+                         new_end--;
                      }
                  last_e = new_end;
                  if (new_end < i) {
@@ -592,4 +592,3 @@ compress_basis(sw_list, num_ints, inverse)
      our_free(ilist);
      our_free(temp_ival);
 }
-

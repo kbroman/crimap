@@ -23,7 +23,7 @@ struct loci_orders{
      SHORT num_loci;
      LINDEX num_orders;
      SHORT **orders;
-     struct loci_orders *next_orders;	
+     struct loci_orders *next_orders;
 };
 
 
@@ -81,15 +81,15 @@ struct tswitchs{
 struct tswitch_list {
        SHORT num_tswitchs;
        struct tswitchs *first_tswitch;
-};       
+};
 
 struct flank_tswitchs {
 /*   struct tswitchs *tswitch;   ELIMINATE -- AND MAKE CORRESPONDING CHANGES IN PROGRAM? */
    LINDEX m_in_l_list, m_in_r_list;
-   unsigned affects_l_interval : 1; 
-   unsigned affects_r_interval : 1; 
-   unsigned in_l_list : 1; 
-   unsigned in_r_list : 1; 
+   unsigned affects_l_interval : 1;
+   unsigned affects_r_interval : 1;
+   unsigned in_l_list : 1;
+   unsigned in_r_list : 1;
    struct flank_tswitchs *next_tswitch;
 };
 
@@ -117,5 +117,3 @@ struct data{
      char **locus_names;
      struct individual ***ind;
 };
-
-

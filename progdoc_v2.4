@@ -3,10 +3,10 @@
 .ce 3
 \fB\s+2Documentation for CRI-MAP, version 2.4 (3/26/90)\s0\fP
 
-Phil Green, Kathy Falls, and Steve Crooks 
-.sp 1.5v 
+Phil Green, Kathy Falls, and Steve Crooks
+.sp 1.5v
 \fBINTRODUCTION\fP
-.LP 
+.LP
 The main purpose of CRI-MAP is to allow rapid, largely automated
 construction of multilocus linkage maps (and facilitate the attendant tasks of
 assessing support relative to alternative locus orders, generating LOD tables,
@@ -15,7 +15,7 @@ codominant loci (e.g. RFLPs) scored on pedigrees "without missing
 individuals", such as CEPH or nuclear families, it can now (with some
 caveats described below) be used on general pedigrees, and some
 disease loci.
-.LP 
+.LP
 This version of
 CRI-MAP is distributed as source code in the language C, on a 360K
 DOS formatted diskette.  To use it, you will need to obtain access to a
@@ -36,14 +36,14 @@ computer with at least 1 Mb (RAM or virtual memory) if you will be
 analyzing more than 10 loci simultaneously.  It may be possible to
 run it on an IBM AT under DOS if your data set is small and
 you reduce the default memory allocations, although we have not tried
-this yet.  
-.LP 
+this yet.
+.LP
 A small data set with several chromosome 7 markers is
 provided with the program for the purpose of testing it (only).  I would
 appreciate being informed of any difficulties in implementing the
 program, bugs, errors or gaps in the documentation, or suggestions for
 improvement.
- 
+
 \fBHistorical note\fP: Version 1 of CRI-MAP was originally written by
 me in the summer of 1986 in the language APL; the portion of that
 version which does maximum likelihood estimation for a fixed locus
@@ -61,7 +61,7 @@ calculation (the method of switch algebras -- actually a family of
 related algorithms), also described in (Green, 1988).  I
 have since written and tested the code for these new algorithms and
 incorporated them into version 2.0 of the program; Kathy Falls has
-worked on improving various other parts of the program.  Versions subsequent to 2.3 
+worked on improving various other parts of the program.  Versions subsequent to 2.3
 were developed by me at Washington University.  I soon hope to
 incorporate a full likelihood analysis for pedigrees with missing
 individuals, and allow for disease loci with incomplete penetrance.  Any user
@@ -72,8 +72,8 @@ incorporate suggestions into future versions of the program.
 .sp .5v
                                                                                                            Dept. of Genetics
                                                                                                            Box 8232
-                                                                                                           Washington University School of Medicine     
-                                                                                                           St. Louis, MO  63110                   
+                                                                                                           Washington University School of Medicine
+                                                                                                           St. Louis, MO  63110
 .sp .5v
                                                                                                            (314) 362-5192
                                                                                                            FAX: (314) 362-4137
@@ -114,103 +114,103 @@ incorporate suggestions into future versions of the program.
 \fBUSING CRI-MAP WITH GENERAL PEDIGREES AND DISEASE LOCI\fP
 
 .LP
-CRI-MAP can only handle disease loci to the extent that genotypes are known: 
-this means that with autosomal dominant loci, affected individuals are to be 
-scored as heterozygotes at the disease locus, while unaffecteds are scored 
-either as homozygotes for the normal allele (if you are willing to assume 
-complete penetrance for that individual), or as genotype missing (alleles both 
-0) otherwise. For recessive loci, only affecteds and obligate carriers should 
-be scored for the disease locus.  
+CRI-MAP can only handle disease loci to the extent that genotypes are known:
+this means that with autosomal dominant loci, affected individuals are to be
+scored as heterozygotes at the disease locus, while unaffecteds are scored
+either as homozygotes for the normal allele (if you are willing to assume
+complete penetrance for that individual), or as genotype missing (alleles both
+0) otherwise. For recessive loci, only affecteds and obligate carriers should
+be scored for the disease locus.
 .LP
-With general pedigrees, CRI-MAP deduces missing genotypes where possible, 
-and computes a likelihood based only on analysis of the known or deduced 
-genotypes.  (Partial genotypes, i.e. those in which only one allele is known or 
-deducible, are also utilized in the likelihood calculation to the extent 
-possible).   This likelihood is the usual likelihood (as defined for example by 
-Ott (1985)) when the pedigree data are "complete" (i.e. genotypes are known or 
-can be deduced at every locus, for every individual having descendants in the 
-pedigree).  
+With general pedigrees, CRI-MAP deduces missing genotypes where possible,
+and computes a likelihood based only on analysis of the known or deduced
+genotypes.  (Partial genotypes, i.e. those in which only one allele is known or
+deducible, are also utilized in the likelihood calculation to the extent
+possible).   This likelihood is the usual likelihood (as defined for example by
+Ott (1985)) when the pedigree data are "complete" (i.e. genotypes are known or
+can be deduced at every locus, for every individual having descendants in the
+pedigree).
 .LP
-If data are missing for an individual at a particular locus, and the possible 
-genotypes at that locus (i.e. those genotypes compatible with the genotypes of 
-ancestors and descendants) include a homozygous genotype, then all meioses in 
-that individual are treated by CRI-MAP as uninformative for that locus.  A full 
-likelihood analysis (as provided for example by LIPED or LINKAGE) would instead 
-consider in turn each possible genotype at the locus, assign relative 
-probabilities to each based on the genotypes of ancestors and descendants, and 
-compute a likelihood which is the weighted sum of the likelihood expressions 
-for each particular choice of genotype.  CRI-MAP thus ignores some of the 
-available information.  In cases that we have examined, however, the 
-information loss appears to be small.  
+If data are missing for an individual at a particular locus, and the possible
+genotypes at that locus (i.e. those genotypes compatible with the genotypes of
+ancestors and descendants) include a homozygous genotype, then all meioses in
+that individual are treated by CRI-MAP as uninformative for that locus.  A full
+likelihood analysis (as provided for example by LIPED or LINKAGE) would instead
+consider in turn each possible genotype at the locus, assign relative
+probabilities to each based on the genotypes of ancestors and descendants, and
+compute a likelihood which is the weighted sum of the likelihood expressions
+for each particular choice of genotype.  CRI-MAP thus ignores some of the
+available information.  In cases that we have examined, however, the
+information loss appears to be small.
 .LP
-If the missing locus genotype is in an "original parent" (i.e. an individual 
-with no ancestors in the pedigree), then in a full likelihood analysis 
-the population allele frequencies are used to assign probabilities to various 
-possible genotypes.  These enter into the likelihood by influencing the 
-probability that the allele in any child of the original parent is derived from 
-that parent.  CRI-MAP does not make use of allele frequencies; for any allele 
-in a child of an original parent, CRI-MAP determines the parental origin when 
-this can be deduced from the other genotype information, but otherwise assigns 
-equal probability to the two possible parental origins for the allele.  In 
-fact, little information is lost by this procedure, except when the allele is 
-rare.  For a rare dominant disease, if one parent is known to be affected, the 
-other should therefore be scored as unaffected (rather than as missing, for 
-example).  
+If the missing locus genotype is in an "original parent" (i.e. an individual
+with no ancestors in the pedigree), then in a full likelihood analysis
+the population allele frequencies are used to assign probabilities to various
+possible genotypes.  These enter into the likelihood by influencing the
+probability that the allele in any child of the original parent is derived from
+that parent.  CRI-MAP does not make use of allele frequencies; for any allele
+in a child of an original parent, CRI-MAP determines the parental origin when
+this can be deduced from the other genotype information, but otherwise assigns
+equal probability to the two possible parental origins for the allele.  In
+fact, little information is lost by this procedure, except when the allele is
+rare.  For a rare dominant disease, if one parent is known to be affected, the
+other should therefore be scored as unaffected (rather than as missing, for
+example).
 .LP
 It should be noted in any case that the frequencies of RFLP alleles have
-usually been estimated in a different population (e.g. the CEPH family parents) 
-from the population from which the disease family is drawn.  It is our 
-experience that allele frequencies may vary dramatically between populations.  
-Therefore it may be inappropriate to perform a full likelihood analysis of 
-disease linkage, if the results of that study depend in an essential way on 
-parameters estimated from another population.  A somewhat more limited analysis 
-which makes no assumptions concerning allele frequencies, such as that given by 
-CRI-MAP, may be preferable.  If (for reasons of power) a full likelihood 
-analysis is necessary, that analysis should be performed using a range of 
-allele frequencies at each locus, in order to ensure that the results do not 
-depend in an essential way on these frequencies.  
+usually been estimated in a different population (e.g. the CEPH family parents)
+from the population from which the disease family is drawn.  It is our
+experience that allele frequencies may vary dramatically between populations.
+Therefore it may be inappropriate to perform a full likelihood analysis of
+disease linkage, if the results of that study depend in an essential way on
+parameters estimated from another population.  A somewhat more limited analysis
+which makes no assumptions concerning allele frequencies, such as that given by
+CRI-MAP, may be preferable.  If (for reasons of power) a full likelihood
+analysis is necessary, that analysis should be performed using a range of
+allele frequencies at each locus, in order to ensure that the results do not
+depend in an essential way on these frequencies.
 .sp .5v
 .LP
-Finally, it should be noted that whenever some available information is 
-arbitrarily excluded, as is the case with CRI-MAP's analysis of general 
-pedigrees, there is a potential that artifactual biases in parameter estimates 
-can be created.  In a preliminary examination of this possibility (cf. Goldgar et al, 1989), 
-we have compared the results of CRI-MAP with those of a full likelihood 
-analysis program (LINKAGE) for all pairs of a set of 20 linked loci, in a data 
-set having 136 pedigrees, most with missing individuals.  The information loss 
-(as estimated by comparing the effective number of informative meioses for the 
-two programs) averaged about 15%, and the estimated recombination fractions 
-were almost exactly the same.  This suggests that bias is not significant and 
-information loss is small, at least in this particular data set.  
-However, the possibility of bias clearly needs to be considered more thoroughly 
-by means of simulation studies involving multiple loci, and we are in the 
-process of doing this.  I would recommend that you check the extent of 
-information loss and/or possible bias in your data set by comparing the results 
-of CRI-MAP to those of a full likelihood program for small sets of loci.  
+Finally, it should be noted that whenever some available information is
+arbitrarily excluded, as is the case with CRI-MAP's analysis of general
+pedigrees, there is a potential that artifactual biases in parameter estimates
+can be created.  In a preliminary examination of this possibility (cf. Goldgar et al, 1989),
+we have compared the results of CRI-MAP with those of a full likelihood
+analysis program (LINKAGE) for all pairs of a set of 20 linked loci, in a data
+set having 136 pedigrees, most with missing individuals.  The information loss
+(as estimated by comparing the effective number of informative meioses for the
+two programs) averaged about 15%, and the estimated recombination fractions
+were almost exactly the same.  This suggests that bias is not significant and
+information loss is small, at least in this particular data set.
+However, the possibility of bias clearly needs to be considered more thoroughly
+by means of simulation studies involving multiple loci, and we are in the
+process of doing this.  I would recommend that you check the extent of
+information loss and/or possible bias in your data set by comparing the results
+of CRI-MAP to those of a full likelihood program for small sets of loci.
 .bp
 .ce
 \fBGETTING STARTED\fP
 
 .LP
-\fB1.\fP  Put all files on the diskette provided into a single directory on your 
-computer.  
+\fB1.\fP  Put all files on the diskette provided into a single directory on your
+computer.
 .LP
-\fB2.\fP  Compile the source code files (i.e. those whose names end in .c), and link them 
-together with your C stdio and math libraries, producing an executable file called crimap. 
+\fB2.\fP  Compile the source code files (i.e. those whose names end in .c), and link them
+together with your C stdio and math libraries, producing an executable file called crimap.
 There are slight differences in the conventions used by some C compilers which may
 make it necessary for you to modify some of the source files before they will compile correctly; usually these
-will be evident from the error messages generated by the compiler. For example, if your 
+will be evident from the error messages generated by the compiler. For example, if your
 operating system is case-sensitive (e.g. UNIX), you will need to rename all
 files in lower case (DOS converts all file names to upper case).  We have declared some stdio and
 math library functions in the crimap functions where they are used; if your compiler objects to this, you
 will need to delete the offending declarations.
 .LP
-Note to VAX C users: there is a bug in the optimizer of the VAX C compiler, ver. 2.3 (and 
-possibly in other versions), which causes it to compile 
-the source file "e_conv.c" incorrectly. When the program is run, this will 
-result in an incorrectly created phase-known data structure in the .dat file 
-(see below).  To avoid this, compile e_conv.c with the /NOOPTIMIZE option.  
-All other source files should be compiled with the default /OPTIMIZE option.  
+Note to VAX C users: there is a bug in the optimizer of the VAX C compiler, ver. 2.3 (and
+possibly in other versions), which causes it to compile
+the source file "e_conv.c" incorrectly. When the program is run, this will
+result in an incorrectly created phase-known data structure in the .dat file
+(see below).  To avoid this, compile e_conv.c with the /NOOPTIMIZE option.
+All other source files should be compiled with the default /OPTIMIZE option.
 .LP
 Also see comments on "underflow" under \fBTECHNICAL NOTES\fP.
 .LP
@@ -221,66 +221,66 @@ crimap {chromosome number} {option}
 .sp .5v
 Example:
 .ce
-crimap 7a twopoint  
+crimap 7a twopoint
 .LP
-The option name must be entered in lower case letters. Chromosome "number" (which may consist of any string of digits, 
-possibly followed by letters -- for example 7p, or 17nf, or 0a) may be replaced 
-by the name of the parameter file (described below); for example, 
+The option name must be entered in lower case letters. Chromosome "number" (which may consist of any string of digits,
+possibly followed by letters -- for example 7p, or 17nf, or 0a) may be replaced
+by the name of the parameter file (described below); for example,
 .sp .5v
 .ce
-crimap chr7a.par twopoint 
+crimap chr7a.par twopoint
 .LP
-You must provide a .gen file (named in accordance with the conventions 
-described below, and residing in the same directory as CRI-MAP) which contains 
-the raw genotype data, \fIand\fP run the \fBprepare\fP option first in order to create the 
-other files required by the program.  
+You must provide a .gen file (named in accordance with the conventions
+described below, and residing in the same directory as CRI-MAP) which contains
+the raw genotype data, \fIand\fP run the \fBprepare\fP option first in order to create the
+other files required by the program.
 .LP
-All program output (apart from specific information written to one of the 
-four files described in the next section) is displayed using the "printf" function in C.  It 
-will thus be displayed on the terminal (unless redirected to a file by means of 
-commands to the operating system) if the program is run interactively, or 
-written to a log file if the program is run in batch mode.  (The latter 
-procedure is the most convenient way to make a copy of the output. In UNIX and some other 
+All program output (apart from specific information written to one of the
+four files described in the next section) is displayed using the "printf" function in C.  It
+will thus be displayed on the terminal (unless redirected to a file by means of
+commands to the operating system) if the program is run interactively, or
+written to a log file if the program is run in batch mode.  (The latter
+procedure is the most convenient way to make a copy of the output. In UNIX and some other
 operating systems, one can simply redirect the output to a file.) The
 \fBprepare\fP and \fBmerge\fP options are the
 only ones requiring interactive input.
 .LP
-\fB4.\fP  As a test run with the chromosome 7 data set, chr7a.gen, provided with the 
-program, use the command 
+\fB4.\fP  As a test run with the chromosome 7 data set, chr7a.gen, provided with the
+program, use the command
 .sp .5v
 .ce
 crimap 7a prepare
 .sp .5v
-to create a .dat file and a .par file for subsequent use by the option \fBall\fP, 
-with the loci 2 8 9 10.  (Specify any two of these as the "ordered 
-loci", and the other two as the "inserted loci".)   
-Use default values for the other parameters.  
+to create a .dat file and a .par file for subsequent use by the option \fBall\fP,
+with the loci 2 8 9 10.  (Specify any two of these as the "ordered
+loci", and the other two as the "inserted loci".)
+Use default values for the other parameters.
 .LP
-(\fBNOTE:\fP If the program stops prematurely, displaying the message 
+(\fBNOTE:\fP If the program stops prematurely, displaying the message
 "Your compiler uses a different size for integers; see documentation
 for changes that will have to be made in the source code",
-then you will need to make 
-certain minor modifications in the source files and recompile.  See "16 bit 
+then you will need to make
+certain minor modifications in the source files and recompile.  See "16 bit
 integers" under \fBTECHNICAL NOTES\fP, below.
 .LP
 If the program stops prematurely, displaying the message "ERROR: ALLOCATION FAILED IN MORECORE",
-then the program's default memory allocations exceed what your operating system can provide. 
+then the program's default memory allocations exceed what your operating system can provide.
 Reduce the value of nb_our_alloc in the .par file (using \fBprepare\fP, or a text editor) and see "Memory management" under
 \fBTECHNICAL NOTES\fP, below.
 
 .sp .5v
-Then run CRI-MAP with the command line 
+Then run CRI-MAP with the command line
 .sp .5v
 .ce
-crimap 7a all 
+crimap 7a all
 .sp .5v
-The program prints out parameter values, tests all 12 possible orders of these 
-4 loci, and finally prints out a sorted list of all orders whose log\d\s-210\s0\ulikelihood is at least that 
-of the best order, less 3.0.  
+The program prints out parameter values, tests all 12 possible orders of these
+4 loci, and finally prints out a sorted list of all orders whose log\d\s-210\s0\ulikelihood is at least that
+of the best order, less 3.0.
       You should get the answer:
 .sp .5v
              2 10 9 8   -97.937
-             2 10 8 9  -100.839 
+             2 10 8 9  -100.839
 .sp .5v
 The run to evaluate these 12 orders should take less than a minute on most workstations or moderately
 powerful personal computers (for example, about 50 secs on a Mac II, about 25 secs on a MICROVAX II without a numerical coprocessor,
@@ -291,13 +291,13 @@ about 8 seconds on a SUN 3/60 or 2 seconds on a 4/60; exact times will depend on
 .ce
 \fBFILE STRUCTURES\fP
 
- CRI-MAP uses four different types of files.  These all have names of the 
-form chr\fIx.y\fP, where \fIx\fP is the chromosome "number"  and the suffix \fI.y\fP is 
-one of 
+ CRI-MAP uses four different types of files.  These all have names of the
+form chr\fIx.y\fP, where \fIx\fP is the chromosome "number"  and the suffix \fI.y\fP is
+one of
 
  .gen       the raw genotype data file
 .sp .5v
- .par       the parameter file 
+ .par       the parameter file
 .sp .5v
  .dat       the processed data file
 .sp .5v
@@ -312,11 +312,11 @@ building options (\fBbuild\fP, \fBinstant\fP, and \fBquick\fP).  You will need
 to learn about the structures of the .gen and .par files, but can ignore the descriptions of the
 other file types if you wish.
 .LP
-Each file is in ASCII format, and can be edited with a text editor.  For 
-readability, the user can insert additional blank or end of line characters 
-into these files if desired, since the C statements which read the files treat 
-any string of such characters as a single "white space" delimiter between data 
-items.  All data items are either numbers or character strings containing no 
+Each file is in ASCII format, and can be edited with a text editor.  For
+readability, the user can insert additional blank or end of line characters
+into these files if desired, since the C statements which read the files treat
+any string of such characters as a single "white space" delimiter between data
+items.  All data items are either numbers or character strings containing no
 blank spaces; they must be separated by white space delimiters.
 .LP
 In the following descriptions, brackets {} are used to enclose data items appearing in the file but
@@ -328,7 +328,7 @@ The data items in this file are as follows:
 .DS L
 {# of families}
 {# of loci}
-{locus name1} {locus name2} . . .  (each name consisting of at most 15 characters) 
+{locus name1} {locus name2} . . .  (each name consisting of at most 15 characters)
 For each family:
    {family ID} (consisting of an arbitrary character string)
    {# of members}
@@ -338,20 +338,20 @@ For each family:
 .DE
 .sp .5v
 .LP
-The pedigree structure must be completely specified; this means that for any 
-individual with an ancestor in the pedigree, both parents must be assigned ID 
-#'s and must appear in the file.  The family ID may be any string of characters (without embedded blanks) but 
-individual IDs must be numbers. For "original parents" (individuals without 
-ancestors in the pedigree), the mother and father IDs are coded as 0.  Alleles 
-must be represented by integers, with missing alleles scored as 0.  To handle 
-new mutations in a dominant disease gene correctly, ancestors of the mutant 
-individual should have their disease locus genotypes coded as missing.  To 
-handle non-pseudoautosomal X linked loci, a dummy allele number (e.g. 9) must 
+The pedigree structure must be completely specified; this means that for any
+individual with an ancestor in the pedigree, both parents must be assigned ID
+#'s and must appear in the file.  The family ID may be any string of characters (without embedded blanks) but
+individual IDs must be numbers. For "original parents" (individuals without
+ancestors in the pedigree), the mother and father IDs are coded as 0.  Alleles
+must be represented by integers, with missing alleles scored as 0.  To handle
+new mutations in a dominant disease gene correctly, ancestors of the mutant
+individual should have their disease locus genotypes coded as missing.  To
+handle non-pseudoautosomal X linked loci, a dummy allele number (e.g. 9) must
 be created and assigned as the second allele for all males in the pedigree.
 .bp
 .LP
-Example: For a data set with two loci, LOCA and LOCB, scored on the single 
-pedigree depicted on the next page, the corresponding .gen file would be 
+Example: For a data set with two loci, LOCA and LOCB, scored on the single
+pedigree depicted on the next page, the corresponding .gen file would be
 .sp .5v
 .DS L
 1
@@ -373,19 +373,19 @@ P100
 0 0 0 0
 .DE
 .sp .5v
-Note that the missing maternal grandparent has been assigned an ID of 1009 and 
+Note that the missing maternal grandparent has been assigned an ID of 1009 and
 included in the file.
 .sp .5v
 
 \fB .par file\fP
 .LP
 This file may either be created using the \fBprepare\fP option, or directly using a text editor.  The format has been
-changed effective with version 2.4, and differs somewhat from that of the other files.  
+changed effective with version 2.4, and differs somewhat from that of the other files.
 Each line contains a parameter or variable name and its value(s)
 (separated by spaces), and concludes with an asterisk *. The parameters may appear in any order
 within the file.  If a parameter is omitted (either by omitting the corresponding line altogether, or
 by omitting the value between the parameter name and the asterisk), then CRI-MAP will automatically assign a default value
-to the parameter.  
+to the parameter.
  In the following descriptions, each line ending in an asterisk is displayed as it would appear in the .par file,
 and gives a parameter name together with its
 default value(s) (if any).  Any number of hap_sys, hap_sys0, and fixed_dist lines may appear in the file.
@@ -405,61 +405,61 @@ or ".ord", respectively.  (This is sometimes useful if one wants to keep all fil
 from the program itself, in which case the name of the .par file passed to crimap may include the full path name;
 the default names for the other files will then include the same path).
 .LP
-nb_our_alloc   3000000   *  
+nb_our_alloc   3000000   *
 .LP
- The initial memory allocation (in bytes).  The default value will suffice for most 
+ The initial memory allocation (in bytes).  The default value will suffice for most
 runs, except with a very large number of loci, and in fact is much more than is usually needed for analyzing a small
-number of loci.  If additional memory is needed during the run, it will be allocated 
-automatically (up to the limits of your system); however it is advantageous to 
+number of loci.  If additional memory is needed during the run, it will be allocated
+automatically (up to the limits of your system); however it is advantageous to
 choose values for the initial allocation which will suffice for the entire run. See "Memory management" under
 \fBTECHNICAL NOTES\fP.
 .LP
-SEX_EQ   1   *  
+SEX_EQ   1   *
 .LP
-  SEX_EQ is 1 if recombination rates are assumed equal in the two sexes, 0 
+  SEX_EQ is 1 if recombination rates are assumed equal in the two sexes, 0
 if sex-specific rates are to be allowed in each interval.
 .LP
-TOL   .01   * 
+TOL   .01   *
 .LP
-  The tolerance for determining convergence of the layered EM algorithm; when 
-log\d\s-210\s0\ulikelihoods from successive "phase unknown" iterations increase by less than 
-this amount, iteration terminates.  The tolerance used to detect convergence in 
+  The tolerance for determining convergence of the layered EM algorithm; when
+log\d\s-210\s0\ulikelihoods from successive "phase unknown" iterations increase by less than
+this amount, iteration terminates.  The tolerance used to detect convergence in
 the "non-informative locus" part of layered EM, and in the option \fBtwopoint\fP is TOL/10.
-In extensive tests using our RFLP 
+In extensive tests using our RFLP
 CEPH family data sets (several hundred maximum likelihood estimations) the default
-value .01 was always found to be adequate (it was occasionally not adequate 
-when ordinary EM was used as the search method, instead of layered EM).  If you 
-are concerned about the possibility that this may not be stringent enough for 
-for your data set (for example, if the likelihood surface is relatively flat), 
-try using .001 instead; the linear nature of EM convergence guarantees that, if 
-the estimates had not converged with TOL = .01, then a substantial improvement 
-in likelihood should be apparent with the more stringent tolerance. If such an 
-improvement is seen, use successively smaller values for TOL until no further 
-improvement in the likelihood results.  
+value .01 was always found to be adequate (it was occasionally not adequate
+when ordinary EM was used as the search method, instead of layered EM).  If you
+are concerned about the possibility that this may not be stringent enough for
+for your data set (for example, if the likelihood surface is relatively flat),
+try using .001 instead; the linear nature of EM convergence guarantees that, if
+the estimates had not converged with TOL = .01, then a substantial improvement
+in likelihood should be apparent with the more stringent tolerance. If such an
+improvement is seen, use successively smaller values for TOL until no further
+improvement in the likelihood results.
 .LP
 PUK_NUM_ORDS_TOL   6   *
 .LP
-  Applies only to the option \fBbuild\fP; gives the maximum number 
-of orders allowed in the current map, in the phase unknown part of the 
-analysis.  
+  Applies only to the option \fBbuild\fP; gives the maximum number
+of orders allowed in the current map, in the phase unknown part of the
+analysis.
 .LP
 PK_NUM_ORDS_TOL   8   *
 .LP
-  Similar to PUK_NUM_ORDS_TOL, but applies instead to the phase known 
-analysis in \fBbuild\fP.  If 0, the phase known analysis will be skipped entirely 
-during mapbuilding.  
+  Similar to PUK_NUM_ORDS_TOL, but applies instead to the phase known
+analysis in \fBbuild\fP.  If 0, the phase known analysis will be skipped entirely
+during mapbuilding.
 .LP
 PUK_LIKE_TOL   3.0   *
 .LP
-  The tolerance for discarding locus orders. If the log\d\s-210\s0\ulikelihood 
-of an order is less than the log\d\s-210\s0\ulikelihood of some other order for the same 
-loci by an amount exceeding PUK_LIKE_TOL, that order is discarded (or not 
+  The tolerance for discarding locus orders. If the log\d\s-210\s0\ulikelihood
+of an order is less than the log\d\s-210\s0\ulikelihood of some other order for the same
+loci by an amount exceeding PUK_LIKE_TOL, that order is discarded (or not
 printed).  Used by mapbuilding options, \fBall\fP, and \fBflips\fP\fIn\fP.  With \fBtwopoint\fP,
 LOD tables are displayed only for locus pairs whose LOD exceeds PUK_LIKE_TOL.
 .LP
 PK_LIKE_TOL   3.0   *
 .LP
-  As above, but applies only to analysis of the phase known data in 
+  As above, but applies only to analysis of the phase known data in
 the option \fBbuild\fP (and is not used by the other options).
 .LP
 use_ord_file   0   *
@@ -473,47 +473,47 @@ write_ord_file   1   *
 .LP
  Applies only to the option \fBbuild\fP.  When it is 1, the results of the current \fBbuild\fP
 run are used to update the orders database.  When it is 0, the orders database will not be updated
-(but will still be used to prescreen orders during the course of the run). 
+(but will still be used to prescreen orders during the course of the run).
 .sp .5v
 ordered_loci  {index # of 1st ordered locus}  {index of 2d ordered locus}  . . . *
 .LP
 inserted_loci  {index # of 1st inserted locus}  {index of 2d inserted locus}  . . . *
 .LP
-Note: locus indices start at 0.   
-  For all options except \fBtwopoint\fP, the "ordered_loci" are assumed to be in their known, unique order; the remaining loci, 
-called the "inserted_loci", are to be placed in the framework defined by the 
-ordered loci.  For the options \fBchrompic\fP, \fBfixed\fP, and \fBflips\fP\fIn\fP, 
-there are no inserted loci.  For 
+Note: locus indices start at 0.
+  For all options except \fBtwopoint\fP, the "ordered_loci" are assumed to be in their known, unique order; the remaining loci,
+called the "inserted_loci", are to be placed in the framework defined by the
+ordered loci.  For the options \fBchrompic\fP, \fBfixed\fP, and \fBflips\fP\fIn\fP,
+there are no inserted loci.  For
 \fBtwopoint\fP,  if both ordered_loci and inserted_loci are specified, then LOD tables are only computed
 for pairs of loci for which one is in the ordered list and the other is in the inserted list. Otherwise
-the analysis uses all pairs of loci in the specified list (ordered or inserted).  
+the analysis uses all pairs of loci in the specified list (ordered or inserted).
 .LP
 hap_sys  {index # of 1st locus in system}  {index # of 2d locus} . . . *
 .LP
 hap_sys0  {index # of 1st locus in system}  {index # of 2d locus} . . . *
 .LP
-  Each haplotyped system is a list of loci (for example, different RFLPs detected by the 
-same probe) which are to be grouped together in an analysis. 
-The first locus in any system is called  "primary", and the remaining loci are 
+  Each haplotyped system is a list of loci (for example, different RFLPs detected by the
+same probe) which are to be grouped together in an analysis.
+The first locus in any system is called  "primary", and the remaining loci are
 called "secondary".  When the parameter use_haps (see below) is 1, the
-secondary loci in a system "tag along" with the primary locus whenever ordered 
-sets of loci are constructed.  The operations which construct new orders (for 
-example, by inserting a new locus into the map, or by permuting a collection of 
-loci) utilize only the primary loci; once the order is constructed, however, it 
-is "filled out" by inserting secondary loci immediately following the 
-corresponding primary locus, prior to calculating likelihoods and map 
-distances.  Secondary loci are automatically deleted from the input lists of ordered loci 
-and inserted loci.  Thus any system which is to be included in the analysis 
-must be represented by (at least) its primary locus.  
+secondary loci in a system "tag along" with the primary locus whenever ordered
+sets of loci are constructed.  The operations which construct new orders (for
+example, by inserting a new locus into the map, or by permuting a collection of
+loci) utilize only the primary loci; once the order is constructed, however, it
+is "filled out" by inserting secondary loci immediately following the
+corresponding primary locus, prior to calculating likelihoods and map
+distances.  Secondary loci are automatically deleted from the input lists of ordered loci
+and inserted loci.  Thus any system which is to be included in the analysis
+must be represented by (at least) its primary locus.
 .LP
- For systems specified using hap_sys, the loci within a system are treated as 
-independent in all calculations; i.e. they are not forced to have 0 recombination fraction.  In 
-particular, intralocus recombinants between loci in the same system 
+ For systems specified using hap_sys, the loci within a system are treated as
+independent in all calculations; i.e. they are not forced to have 0 recombination fraction.  In
+particular, intralocus recombinants between loci in the same system
 are permitted.  For systems specified using hap_sys0, distances within the system are forced to 0
-(the program will stop, displaying the message ERROR: 0 likelihood, if there are in fact intralocus 
+(the program will stop, displaying the message ERROR: 0 likelihood, if there are in fact intralocus
 recombinants).
 .sp .5v
-Example:  two haplotyped systems, the first having loci 3, 4, 
+Example:  two haplotyped systems, the first having loci 3, 4,
 and 5 with distances not forced to 0.0, and the second having loci 9 and 11 with distances
 forced to 0.0, would be entered in the .par file as
 .sp .5v
@@ -525,12 +525,12 @@ hap_sys0   9   11   *
 use_haps   1   *
 .LP
   When use_haps is set to 1, haplotyping is performed; when it is 0,
-any haplotyped systems specified in the .par file are ignored (i.e. the input lists of loci are taken as is, 
+any haplotyped systems specified in the .par file are ignored (i.e. the input lists of loci are taken as is,
 and no secondary loci are deleted or inserted).
 .LP
 fixed_dist {rec. frac.} {index # of 1st locus} {index # of 2d locus} {sex (optional)} *
 .LP
- For the options \fBfixed\fP and \fBchrompic\fP (only), the recombination fraction between a 
+ For the options \fBfixed\fP and \fBchrompic\fP (only), the recombination fraction between a
 pair of adjacent loci may be held fixed using fixed_dist.  If the recombination fraction to
 be fixed is sex-specific, specify the sex as 0 for female, or 1 for male. If either locus is part of a haplotyped system, it must
 be the primary locus from its system (it is not possible to force a distance within a haplotyped system, except
@@ -551,28 +551,28 @@ END
 .sp .5v
 \fB .dat file\fP
 .LP
-This file, which is created by the program (using the \fBprepare\fP option), not the user, 
+This file, which is created by the program (using the \fBprepare\fP option), not the user,
 has two data structures, each having the following data items:
 .DS L
-{# of loci} 
+{# of loci}
 {# of families}
 {family id1}{family id2} . . . (may be any character strings not containing blanks)
-{locus name1} {locus name2} . . .  (each locus name consists of at most 15 characters, with no embedded blanks) 
+{locus name1} {locus name2} . . .  (each locus name consists of at most 15 characters, with no embedded blanks)
 For each family:
    {# of chromosomes}
-   {phase chromosomes: each is a character string of length numloci with values 0, 1, or X, denoting the phase} 
+   {phase chromosomes: each is a character string of length numloci with values 0, 1, or X, denoting the phase}
    {# of switches}
-   For each switch: 
-       {index of locus affected by the switch (in this file, locus indices start at 1, not 0)} {string of 
-          length numchroms, with entry 1 if the corresponding chromosome is affected by the switch, 0 otherwise} 
+   For each switch:
+       {index of locus affected by the switch (in this file, locus indices start at 1, not 0)} {string of
+          length numchroms, with entry 1 if the corresponding chromosome is affected by the switch, 0 otherwise}
 .DE
 .LP
-The first such data structure has the "phase known" data: there is 1 "family" 
-with all the chromosomes in the data set, and 0 switches.  All loci of unknown 
-phase are given phase X, as are loci on the chromosomes of children of 
-identical heterozygotes (the latter restriction is necessary to avoid bias in 
-the estimation of recombination fractions, cf. Ott (1985)).  The second data 
-structure contains the full phase information for the data set, arranged by 
+The first such data structure has the "phase known" data: there is 1 "family"
+with all the chromosomes in the data set, and 0 switches.  All loci of unknown
+phase are given phase X, as are loci on the chromosomes of children of
+identical heterozygotes (the latter restriction is necessary to avoid bias in
+the estimation of recombination fractions, cf. Ott (1985)).  The second data
+structure contains the full phase information for the data set, arranged by
 families.  (For definitions of switches and phase chromosomes, see
 (Green, 1988)).
 .LP
@@ -582,7 +582,7 @@ The "phase known" data structure is used only by the option \fBbuild\fP.
 .sp .5v
 \fB .ord file\fP
 .LP
-(For definition of terminology, see description of the \fBbuild\fP option, below.) 
+(For definition of terminology, see description of the \fBbuild\fP option, below.)
 .sp .5v
 .DS L
 {# of orders objects}
@@ -599,35 +599,35 @@ For each orders object:
 
 \fBall\fP
 .LP
-Finds log\d\s-210\s0\ulikelihoods for all locus orders which result from placing the 
-inserted loci in all possible positions with respect to the ordered loci (see 
+Finds log\d\s-210\s0\ulikelihoods for all locus orders which result from placing the
+inserted loci in all possible positions with respect to the ordered loci (see
 description of the .par file, above, for definition of
-these terms). The program finds the order with the 
-highest log\d\s-210\s0\ulikelihood L and prints out, in decreasing order of log\d\s-210\s0\ulikelihood, 
-those orders whose associated 
-log\d\s-210\s0\ulikelihoods are greater than or equal to L - PUK_LIKE_TOL.  In particular, 
-when the number of ordered loci is two, all possible orders of the specified 
-loci are analyzed.  When using this option, keep in mind that the number of orders 
-analyzed is n!/f!, where n is the total number of loci and f is the number of 
-ordered loci (and ! denotes factorial), and that analysis of all 360 orders of 
-a typical set of 6 loci on chromosome 7 takes about 30 mins on a MICROVAX II; 
-thus it is probably impractical to use this option with more than 6 inserted 
+these terms). The program finds the order with the
+highest log\d\s-210\s0\ulikelihood L and prints out, in decreasing order of log\d\s-210\s0\ulikelihood,
+those orders whose associated
+log\d\s-210\s0\ulikelihoods are greater than or equal to L - PUK_LIKE_TOL.  In particular,
+when the number of ordered loci is two, all possible orders of the specified
+loci are analyzed.  When using this option, keep in mind that the number of orders
+analyzed is n!/f!, where n is the total number of loci and f is the number of
+ordered loci (and ! denotes factorial), and that analysis of all 360 orders of
+a typical set of 6 loci on chromosome 7 takes about 30 mins on a MICROVAX II;
+thus it is probably impractical to use this option with more than 6 inserted
 loci, except on a much faster computer. When use_ord_file is set to 1 in the .par file,
 any orders incompatible with the orders database are eliminated prior to calculating likelihoods,
 which may make it feasible to use \fBall\fP with larger sets of loci.
 .LP
 One convenient use of this option is to position a new locus (which would be
 specified as the single inserted locus) with respect to a set of
-loci of known order. 
+loci of known order.
 .sp .5v
 \fBbuild\fP
 .LP
-Builds a map by sequential incorporation of loci.  This is the main option 
-used for RFLP map construction.  
+Builds a map by sequential incorporation of loci.  This is the main option
+used for RFLP map construction.
 .LP
-To describe the method used in greater detail, define an "orders object" to 
+To describe the method used in greater detail, define an "orders object" to
 be a collection of loci, together with a set of permissible orders for those
-loci.  The "orders database" contains a collection of orders objects.  
+loci.  The "orders database" contains a collection of orders objects.
 At any given stage during the map construction "the map" (designated
 "current_orders" in the program source code, and output) consists of
 one such orders object.  At the beginning of the run the orders
@@ -659,143 +659,143 @@ copy of it is written to the .ord file every time a new locus is added
 to the map, so that the program can be stopped and restarted later
 without loss of the information in the database.
 .LP
-\fBBuild\fP first analyzes the "phase known" data (see description of .dat file 
-structure), for which maximum likelihood computation is much more rapid than 
-for the full data set.  When the map gets too large (i.e. the number of orders 
-in the map exceeds PK_NUM_ORDS_TOL), \fBbuild\fP proceeds to find a set of uniquely 
-ordered loci, starting with the original ordered loci and adding additional 
-loci which now have a unique placement (during this latter step, the program 
-only makes use of information in the data base; it performs no likelihood 
-calculations).  Using this uniquely ordered set of loci as the new "map", the 
-program then proceeds to analyze the full data set, again adding loci 
-sequentially according to the procedure described above.  This portion of the 
-program stops when the number of orders in the map exceeds PUK_NUM_ORDS_TOL.  
-\fBBuild\fP then again extracts a set of uniquely ordered loci on the basis of 
+\fBBuild\fP first analyzes the "phase known" data (see description of .dat file
+structure), for which maximum likelihood computation is much more rapid than
+for the full data set.  When the map gets too large (i.e. the number of orders
+in the map exceeds PK_NUM_ORDS_TOL), \fBbuild\fP proceeds to find a set of uniquely
+ordered loci, starting with the original ordered loci and adding additional
+loci which now have a unique placement (during this latter step, the program
+only makes use of information in the data base; it performs no likelihood
+calculations).  Using this uniquely ordered set of loci as the new "map", the
+program then proceeds to analyze the full data set, again adding loci
+sequentially according to the procedure described above.  This portion of the
+program stops when the number of orders in the map exceeds PUK_NUM_ORDS_TOL.
+\fBBuild\fP then again extracts a set of uniquely ordered loci on the basis of
 information in the orders database, and prints out sex-specific and
-sex-averaged recombination fractions and the corresponding Kosambi centiMorgans for 
-these loci.  For each remaining locus, it prints out the possible placements 
-with respect to the uniquely ordered loci, along with the log\d\s-210\s0\ulikelihoods for 
-each placement.  
+sex-averaged recombination fractions and the corresponding Kosambi centiMorgans for
+these loci.  For each remaining locus, it prints out the possible placements
+with respect to the uniquely ordered loci, along with the log\d\s-210\s0\ulikelihoods for
+each placement.
 .LP
-If one starts the map with a pair of unlinked loci, then construction of the 
-map is slower, because in the initial stages the map will consist of two 
-unlinked linkage groups which can be in either orientation with respect to each 
-other so that there are more orders to keep track of (and to place remaining loci 
-in).  Conversely, if the initial loci are at 0 recombination fraction (for 
-example, two RFLPs detected by the same probe), then in all subsequent maps the 
-loci will appear in both possible orientations, thereby doubling the number of 
-orders.  What is worse, the parts of the program which extract the maximum set 
-of uniquely ordered loci will never get past these two (since no other locus is 
-uniquely placed with respect to them).  To avoid this, it is advisable to put 
+If one starts the map with a pair of unlinked loci, then construction of the
+map is slower, because in the initial stages the map will consist of two
+unlinked linkage groups which can be in either orientation with respect to each
+other so that there are more orders to keep track of (and to place remaining loci
+in).  Conversely, if the initial loci are at 0 recombination fraction (for
+example, two RFLPs detected by the same probe), then in all subsequent maps the
+loci will appear in both possible orientations, thereby doubling the number of
+orders.  What is worse, the parts of the program which extract the maximum set
+of uniquely ordered loci will never get past these two (since no other locus is
+uniquely placed with respect to them).  To avoid this, it is advisable to put
 these loci later in the list, or (better) to haplotype them using hap_sys or hap_sys0 in the .par
 file.
 .LP
-It is a good idea to exclude relatively uninformative loci from the initial 
-map construction process: they tend to have multiple possible placements, 
-resulting in a large number of orders to test.  Their positions can be 
+It is a good idea to exclude relatively uninformative loci from the initial
+map construction process: they tend to have multiple possible placements,
+resulting in a large number of orders to test.  Their positions can be
 determined later using \fBall\fP, or \fBinstant\fP.
 .LP
-With large numbers of loci, it may be necessary to perform several map runs 
-using \fBbuild\fP until one arrives at "the best" set of uniquely ordered loci.   
-Information in the orders database is cumulative between runs, provided it is 
-not reinitialized using \fBprepare\fP; it is not necessary to reinitialize the orders 
+With large numbers of loci, it may be necessary to perform several map runs
+using \fBbuild\fP until one arrives at "the best" set of uniquely ordered loci.
+Information in the orders database is cumulative between runs, provided it is
+not reinitialized using \fBprepare\fP; it is not necessary to reinitialize the orders
 file when using different sets of loci from the same file.
 .sp .5v
-\fBNOTE:\fP   The goal of multilocus linkage analysis is to find the locus order 
-having the highest likelihood, and identify alternative orders with comparable 
-likelihoods.  Because it is impossible to consider all possible orders for a 
-large set of loci, it is necessary to adopt a strategy which makes decisions on 
-the basis of subsets of the loci.   Multiple statistical tests are performed, 
-each with a nonzero probability for Type I error.  Because incorrect orders will 
-sometimes have significantly higher likelihoods than the correct one, and the 
-chance of this happening increases with the number of sets of loci which are 
-examined during the map construction process,  it is possible that the 
-maximum likelihood order would in fact be rejected by \fBbuild\fP (or any other 
+\fBNOTE:\fP   The goal of multilocus linkage analysis is to find the locus order
+having the highest likelihood, and identify alternative orders with comparable
+likelihoods.  Because it is impossible to consider all possible orders for a
+large set of loci, it is necessary to adopt a strategy which makes decisions on
+the basis of subsets of the loci.   Multiple statistical tests are performed,
+each with a nonzero probability for Type I error.  Because incorrect orders will
+sometimes have significantly higher likelihoods than the correct one, and the
+chance of this happening increases with the number of sets of loci which are
+examined during the map construction process,  it is possible that the
+maximum likelihood order would in fact be rejected by \fBbuild\fP (or any other
 published method for map construction, for that matter) because for some \fIsubset\fP
-of the loci, an alternative order has a significantly higher likelihood.  In 
-our experience this happens only very rarely (probably because the tests are not 
-independent), and when it does is usually due to errors in the data itself.  Nevertheless, 
-three precautions should be taken to guard against the possibility of an 
-erroneous order being adopted by \fBbuild\fP.  First, we usually construct initial 
-maps using a fairly stringent tolerance for rejecting orders -- PUK_LIKE_TOL at 
-least 3.0 -- and then lower it to 2.0 (and omit the phase known part of the 
-analysis) for construction of the final map.  Second, it is advisable to check 
-the final order by running \fBflips\fP\fIn\fP to look at permutations of successive triples 
-or quadruples of loci.  Finally, it is a good idea to construct the map several 
-different times, using different starting pairs of loci and a different 
-sequence for adding the loci each time.  
+of the loci, an alternative order has a significantly higher likelihood.  In
+our experience this happens only very rarely (probably because the tests are not
+independent), and when it does is usually due to errors in the data itself.  Nevertheless,
+three precautions should be taken to guard against the possibility of an
+erroneous order being adopted by \fBbuild\fP.  First, we usually construct initial
+maps using a fairly stringent tolerance for rejecting orders -- PUK_LIKE_TOL at
+least 3.0 -- and then lower it to 2.0 (and omit the phase known part of the
+analysis) for construction of the final map.  Second, it is advisable to check
+the final order by running \fBflips\fP\fIn\fP to look at permutations of successive triples
+or quadruples of loci.  Finally, it is a good idea to construct the map several
+different times, using different starting pairs of loci and a different
+sequence for adding the loci each time.
 .sp .5v
 \fBchrompic\fP
 .LP
-Displays the grandparental origins of alleles in each child's chromosomes, 
+Displays the grandparental origins of alleles in each child's chromosomes,
 for the phase choice having the highest likelihood; gives the relative probability
-for this phase choice and for the next most likely alternative; gives the number and 
-location of recombinations on each chromosome, and provides, for each 
-chromosome interval defined by the loci, a list of the chromosomes having a 
-recombination in that interval.  Flags candidate data errors.  
+for this phase choice and for the next most likely alternative; gives the number and
+location of recombinations on each chromosome, and provides, for each
+chromosome interval defined by the loci, a list of the chromosomes having a
+recombination in that interval.  Flags candidate data errors.
 .LP
-The program begins by finding maximum likelihood estimates of the 
-recombination fractions (for the specified locus order); these are then 
-used to find, for each pedigree in the data set, the particular phase choice 
+The program begins by finding maximum likelihood estimates of the
+recombination fractions (for the specified locus order); these are then
+used to find, for each pedigree in the data set, the particular phase choice
 having the highest likelihood for that pedigree.  (The algorithm used for this purpose
-is described in (Green, 1988)). For each individual with 
-parents in the pedigree, the chromosomes are displayed (maternal first, then 
-paternal).  (The individual's ID # appears to the left of the maternal chromosome.) 
+is described in (Green, 1988)). For each individual with
+parents in the pedigree, the chromosomes are displayed (maternal first, then
+paternal).  (The individual's ID # appears to the left of the maternal chromosome.)
 A '0' (resp. '1') means the allele is of known phase and is of grandmaternal (resp. grandpaternal) origin. For alleles of unknown phase, 'o' and 'i' are used instead, denoting the grandparental
-origin in the most likely phase choice. '-' means that the locus is 
-noninformative. 
+origin in the most likely phase choice. '-' means that the locus is
+noninformative.
 .LP
-To the right of the chromosome appears the number of recombinations.  
-Beneath the chromosome appear the names of any informative loci which are out 
-of phase with the nearest informative loci on either side; when the loci are 
-closely spaced, these are candidate data errors.  
+To the right of the chromosome appears the number of recombinations.
+Beneath the chromosome appear the names of any informative loci which are out
+of phase with the nearest informative loci on either side; when the loci are
+closely spaced, these are candidate data errors.
 .LP
-Following the chromosome pictures for all the families is a list of 
-recombinant chromosomes.  For each pair of loci, the chromosomes are listed in 
-which there is a recombination between those two loci (and no intervening locus 
-is informative).  The recombinant chromosomes are designated by family number, 
-individual ID #, and M or P (for 
-maternal or paternal).  
+Following the chromosome pictures for all the families is a list of
+recombinant chromosomes.  For each pair of loci, the chromosomes are listed in
+which there is a recombination between those two loci (and no intervening locus
+is informative).  The recombinant chromosomes are designated by family number,
+individual ID #, and M or P (for
+maternal or paternal).
 .LP
-Following the list of recombinant chromosomes is a list of groups of loci not 
-separated by any crossovers in the data set; and finally, the maximum likelihood recombination 
+Following the list of recombinant chromosomes is a list of groups of loci not
+separated by any crossovers in the data set; and finally, the maximum likelihood recombination
 fractions which were used in computing probabilities of the phase choices.
 .sp .5v
 \fBfixed\fP
 .LP
-For a set of loci in a specified order,  finds the associated maximum 
-likelihood recombination fractions and map distances and the corresponding log\d\s-210\s0\ulikelihood. 
+For a set of loci in a specified order,  finds the associated maximum
+likelihood recombination fractions and map distances and the corresponding log\d\s-210\s0\ulikelihood.
 The recombination fraction between any pair of adjacent loci may be held fixed by using
 fixed_dist in the .par file.
 .sp .5v
 \fBflips\fP\fIn\fP
 .LP
-For each locus order obtained by permuting an \fIn\fP-tuple (\fIn\fP >= 2) of adjacent loci within an 
+For each locus order obtained by permuting an \fIn\fP-tuple (\fIn\fP >= 2) of adjacent loci within an
 initial (reference) locus order, displays the relative log\d\s-210\s0\ulikelihood (i.e. the log\d\s-210\s0\ulikelihood of the reference order, minus that of the permuted order).  For example, \fBflips3\fP
 will find relative log\d\s-210\s0\ulikelihoods for all permutations involving triples of adjacent loci.  (If \fIn\fP is omitted it is assumed to be 2).
-When \fIn\fP is 2, relative log\d\s-210\s0\ulikelihoods for all permutations are displayed; for 
-higher values of \fIn\fP, only the permutations whose log\d\s-210\s0\ulikelihoods are at least 
+When \fIn\fP is 2, relative log\d\s-210\s0\ulikelihoods for all permutations are displayed; for
+higher values of \fIn\fP, only the permutations whose log\d\s-210\s0\ulikelihoods are at least
 that of the original order, less PUK_LIKE_TOL, are displayed.
 .LP
-Note: the total # of orders which must be evaluated is 
+Note: the total # of orders which must be evaluated is
 .sp .5v
 .ce
         (m - n + 1)(n! - (n-1)!) + (n - 1)!
 .sp .5v
-where m is the total # of loci; thus it is impractical to use this option with 
+where m is the total # of loci; thus it is impractical to use this option with
 large values of n.  However, when use_ord_file is set to
 1 in the .par file, permutations incompatible with the orders database are eliminated before
 calculating likelihoods, which will sometimes make it feasible to use larger n's.
 .sp .5v
 \fBinstant\fP
 .LP
-Finds a uniquely ordered set of loci, and the possible placements of the 
-remaining loci with respect to them, using only the information already 
-existing in the .ord file (the .ord file must have been created in a previous 
-\fBbuild\fP run).  Log\d\s-210\s0\ulikelihoods for the different placements of the non-uniquely 
+Finds a uniquely ordered set of loci, and the possible placements of the
+remaining loci with respect to them, using only the information already
+existing in the .ord file (the .ord file must have been created in a previous
+\fBbuild\fP run).  Log\d\s-210\s0\ulikelihoods for the different placements of the non-uniquely
 ordered loci are computed.
 .sp .5v
-\fBmerge\fP  
+\fBmerge\fP
 .LP
 Merges two .gen files, having overlapping sets of families and/or loci. The
 option is run interactively: in response to prompts, the user enters the names
@@ -825,26 +825,26 @@ the .dat and .ord files used by them.  It will also create a .par file (or modif
 however once you are familiar with the format of the .par file you will probably find
 it quicker to create and modify that file with a text editor, rather than use \fBprepare\fP repeatedly.
 .LP
-Example of usage: 
+Example of usage:
 .sp .5v
 .ce
 crimap 7a prepare
 .sp .5v
 .LP
-\fBPrepare\fP first searches for the .gen and .dat files of the correct name (in 
-the above example, chr7a.gen and chr7a.dat).  If there is no .dat file, one is 
-created from the .gen file; if both exist, the program asks whether a new .dat 
-file should be created from the .gen file (select this option if the .gen file 
-is more recent).  If neither exists, a message to that effect is given and the 
-program terminates.  As the .dat file is being created, family IDs are 
+\fBPrepare\fP first searches for the .gen and .dat files of the correct name (in
+the above example, chr7a.gen and chr7a.dat).  If there is no .dat file, one is
+created from the .gen file; if both exist, the program asks whether a new .dat
+file should be created from the .gen file (select this option if the .gen file
+is more recent).  If neither exists, a message to that effect is given and the
+program terminates.  As the .dat file is being created, family IDs are
 displayed and any non-inheritances are noted. (These should be checked carefully: a missing data
 item in the .gen file will generally result in multiple non-inheritances and incorrect family IDs for the
 subsequent families.  If non-inheritances are found, these should be corrected in the .gen
-file, and \fBprepare\fP run again). 
+file, and \fBprepare\fP run again).
 .LP
-\fBPrepare\fP then displays values for several parameter values, including 
-whether to compute sex-averaged or sex-specific likelihoods, and tolerances 
-which control convergence of the maximum likelihood search and the map building 
+\fBPrepare\fP then displays values for several parameter values, including
+whether to compute sex-averaged or sex-specific likelihoods, and tolerances
+which control convergence of the maximum likelihood search and the map building
 process (see description of .par file, above). The displayed values are the defaults (given in the
 description of the .par file) or the values specified in any preexisting .par file of the same name. The user is
 then prompted to change any of these values, if desired.
@@ -853,24 +853,24 @@ Any haplotyped systems, or fixed distances (see description of .par file) in a p
 displayed, and you are prompted to enter any new ones if desired. (\fBprepare\fP cannot be used
 to modify or delete systems in the preexisting file; you must use a text editor for this).
 .LP
-\fBPrepare\fP then displays the names of the other CRI-MAP options, and asks which 
+\fBPrepare\fP then displays the names of the other CRI-MAP options, and asks which
 one it should set up the .par file for.
-Depending on the option chosen, the user is now prompted to specify the indices of the "ordered loci", and 
-of the "inserted loci". The ordered loci 
-are generally fixed in that order during subsequent analysis, while the inserted loci are 
-tried in all possible positions.  When nothing is to be assumed about locus 
+Depending on the option chosen, the user is now prompted to specify the indices of the "ordered loci", and
+of the "inserted loci". The ordered loci
+are generally fixed in that order during subsequent analysis, while the inserted loci are
+tried in all possible positions.  When nothing is to be assumed about locus
 order only two ordered loci should be specified.  (\fBTwopoint\fP is a special case; see its description below).
 .LP
-For the map-building options (\fBbuild\fP, \fBinstant\fP, and \fBquick\fP), the ordered loci 
-form the initial map.  As the default (in this case only), if requested, \fBprepare\fP will 
-sort the loci by informativeness of the phase known data and designate the two most informative loci as the ordered loci, 
-and the remaining loci as inserted.  For the options \fBfixed\fP, \fBflips\fP\fIn\fP, and 
+For the map-building options (\fBbuild\fP, \fBinstant\fP, and \fBquick\fP), the ordered loci
+form the initial map.  As the default (in this case only), if requested, \fBprepare\fP will
+sort the loci by informativeness of the phase known data and designate the two most informative loci as the ordered loci,
+and the remaining loci as inserted.  For the options \fBfixed\fP, \fBflips\fP\fIn\fP, and
 \fBchrompic\fP, all loci are specified as ordered, and none are inserted.  See the description of the .par file, or the
 relevant option,
 for further details.
 .LP
-If the option \fBbuild\fP has 
-been specified, \fBprepare\fP initializes an orders file, unless one already exists, 
+If the option \fBbuild\fP has
+been specified, \fBprepare\fP initializes an orders file, unless one already exists,
 in which case it asks whether the existing one should be used.
  Finally, \fBprepare\fP asks whether to create a new .par file containing the information you have input. You have
 the option at this point of aborting the creation of a new file, in which case any preexisting .par file
@@ -882,18 +882,18 @@ Similar to \fBinstant\fP, except that log\d\s-210\s0\ulikelihoods are \fInot\fP 
 .sp .5v
 \fBtwopoint\fP
 .LP
-Performs twopoint linkage analysis for each pair of loci.  In the case of sex 
-specific analyses, the output for each pair appears on three lines: the first 
-has the locus names, followed by the maximum likelihood estimates, f and m, of 
-the female and male recombination fractions, and the sex-specific LODS ( = 
-log\d\s-210\s0\ulike(f,m) - log\d\s-210\s0\ulike(.5,.5)).  The second line has the values of log\d\s-210\s0\ulike(r,m) 
+Performs twopoint linkage analysis for each pair of loci.  In the case of sex
+specific analyses, the output for each pair appears on three lines: the first
+has the locus names, followed by the maximum likelihood estimates, f and m, of
+the female and male recombination fractions, and the sex-specific LODS ( =
+log\d\s-210\s0\ulike(f,m) - log\d\s-210\s0\ulike(.5,.5)).  The second line has the values of log\d\s-210\s0\ulike(r,m)
 - log\d\s-210\s0\ulike(.5,.5) for r = .001, .01, .05, and all multiples of .05 up
-through .5.  
-The last line similarly has the values of log\d\s-210\s0\ulike(f,r) - log\d\s-210\s0\ulike(.5,.5).  
+through .5.
+The last line similarly has the values of log\d\s-210\s0\ulike(f,r) - log\d\s-210\s0\ulike(.5,.5).
 Only pairs for which the LODS exceed PUK_LIKE_TOL are printed out. (You can get tables for all
 pairs by setting PUK_LIKE_TOL = 0.0).
 .LP
-When SEX_EQ is 1, the sex-averaged recombination fractions, LODS, and 
+When SEX_EQ is 1, the sex-averaged recombination fractions, LODS, and
 log\d\s-210\s0\ulikelihoods are given instead.
 .LP
 Haplotyped systems may be used for either locus in a pair.  If the loci within a system are not
@@ -913,75 +913,75 @@ or inserted_loci) is non-empty, LOD tables are computed for all pairs of loci wi
 
 \fBMemory management\fP
 .LP
-Memory is allocated dynamically by the program, as needed; however, since 
-repeated requests of memory from the operating system (via the C stdio library function 
+Memory is allocated dynamically by the program, as needed; however, since
+repeated requests of memory from the operating system (via the C stdio library function
 malloc) are quite time-consuming, we have adopted a strategy in which two large
-initial blocks of memory are first allocated.  One of these is reserved for the 
-objects comprising the orders database and is apportioned out as needed by the 
-function our_orders_alloc, while the other is used for all other memory 
-requirements and is apportioned by our_alloc.  If the amounts initially 
-allocated are insufficient, additional memory is requested from the operating 
-system (via the library function malloc). (When this happens, a statement to 
+initial blocks of memory are first allocated.  One of these is reserved for the
+objects comprising the orders database and is apportioned out as needed by the
+function our_orders_alloc, while the other is used for all other memory
+requirements and is apportioned by our_alloc.  If the amounts initially
+allocated are insufficient, additional memory is requested from the operating
+system (via the library function malloc). (When this happens, a statement to
 that effect is printed). The default initial request of 3Mb (for our_alloc)
-will suffice for nearly all runs.  If the program 
-requests more memory than the operating system can provide, the program 
-terminates with the message "ERROR: ALLOCATION FAILED IN MORECORE".  If this 
-happens, try setting the amount of memory specified in the .par file (using the parameter nb_our_alloc) to the 
+will suffice for nearly all runs.  If the program
+requests more memory than the operating system can provide, the program
+terminates with the message "ERROR: ALLOCATION FAILED IN MORECORE".  If this
+happens, try setting the amount of memory specified in the .par file (using the parameter nb_our_alloc) to the
 maximum amount the operating system will allow you (and see if your system manager
-can increase that amount by adjusting operating system parameters).  If that fails, you may 
-need to reduce the number of loci being analyzed (often, deletion of a single 
-locus having a large number of switches may suffice), or to split a large 
+can increase that amount by adjusting operating system parameters).  If that fails, you may
+need to reduce the number of loci being analyzed (often, deletion of a single
+locus having a large number of switches may suffice), or to split a large
 pedigree into subpedigrees. I would be interested to learn of cases where that is necessary,
 since it may be possible to improve the switch algebra algorithm to avoid it.
 .sp .5v
 \fBUnderflow\fP
 .LP
 When mapping large numbers of loci, the individual family likelihoods involve
-products of many factors numerically less than 1, and so can become quite 
-small.  If possible, at compilation time you should select an option for 
-representation of floating point numbers which allows them to be as small as 
-possible.  With VAX C, this is done by using the /g_float option with the compile command cc, and 
-then linking with the vaxcrtlg library.  
+products of many factors numerically less than 1, and so can become quite
+small.  If possible, at compilation time you should select an option for
+representation of floating point numbers which allows them to be as small as
+possible.  With VAX C, this is done by using the /g_float option with the compile command cc, and
+then linking with the vaxcrtlg library.
 .sp .5v
 \fB16 bit integers\fP
 .LP
-C compilers usually represent integer variables with either 16 or 32 bits.  The 
-source code provided to you assumes that you have a "32 bit" compiler.  If, 
-when you first try to run the program, it terminates prematurely, displaying 
+C compilers usually represent integer variables with either 16 or 32 bits.  The
+source code provided to you assumes that you have a "32 bit" compiler.  If,
+when you first try to run the program, it terminates prematurely, displaying
 the message "Your compiler uses a different size for integers; see documentation
 for changes that will have to be made in the source code",
-then you have a 16 bit compiler.  To get the program to run correctly you must 
-then make the following two changes in the source code and recompile: 
+then you have a 16 bit compiler.  To get the program to run correctly you must
+then make the following two changes in the source code and recompile:
 .sp .5v
  (1) in the file "defs.h", replace the line
 .sp .5v
      typedef int INT;
 .sp .5v
-by 
+by
 .sp .5v
-     typedef long INT; 
+     typedef long INT;
 .sp .5v
- (2) Consult the manual for your compiler and determine the name of a 
-library memory allocation function which takes long integers, instead of 
-integers, as arguments (the function malloc takes integer arguments).  The name 
-of this function will be something like "mlalloc" (Lightspeed C) or "_halloc" 
-(Microsoft C, ver 4.0 or later).  Whatever it is, substitute it for "malloc" 
-throughout the source files our_allo.c and our_orde.c.  If your compiler does 
-not have such a function, you will be unable to run CRI-MAP.  
+ (2) Consult the manual for your compiler and determine the name of a
+library memory allocation function which takes long integers, instead of
+integers, as arguments (the function malloc takes integer arguments).  The name
+of this function will be something like "mlalloc" (Lightspeed C) or "_halloc"
+(Microsoft C, ver 4.0 or later).  Whatever it is, substitute it for "malloc"
+throughout the source files our_allo.c and our_orde.c.  If your compiler does
+not have such a function, you will be unable to run CRI-MAP.
 
 
 
 .ce
 \fBCHANGES IN VERSION 2.2 - 2.4\fP
 
-  The main change in version 2.2 is the incorporation of a more efficient 
-"switch algebra" algorithm which in many cases (particularly for large 
-pedigrees) substantially reduces memory requirements and running time.  Thus 
-for many runs, even with a relatively large number of loci, the default memory 
-request of 3 MB (for nb_our_alloc in the .par file) is overly generous.  
+  The main change in version 2.2 is the incorporation of a more efficient
+"switch algebra" algorithm which in many cases (particularly for large
+pedigrees) substantially reduces memory requirements and running time.  Thus
+for many runs, even with a relatively large number of loci, the default memory
+request of 3 MB (for nb_our_alloc in the .par file) is overly generous.
 .LP
-Version 2.3 incorporates a better switch algebra algorithm which further 
-reduces memory and running time.  Additional changes have been made which 
+Version 2.3 incorporates a better switch algebra algorithm which further
+reduces memory and running time.  Additional changes have been made which
 should make this version compatible with most C compilers.
 .LP
 Version 2.4 incorporates the following changes:
@@ -1022,32 +1022,28 @@ output of \fBflips\fP\fIn\fP is easier to read (the "flipped" loci in each order
 \fBBIBLIOGRAPHY\fP
 
 .XP
-Barker D, Green P, Knowlton R, Schumm J, Lander E, Oliphant A, Willard H, 
-Akots G, Brown V, Gravius T, Helms C, Nelson C, Parker C, Rediker K, Watt 
-D, Weiffenbach B, Donis-Keller H (1987): Genetic linkage map of human chromosome 
+Barker D, Green P, Knowlton R, Schumm J, Lander E, Oliphant A, Willard H,
+Akots G, Brown V, Gravius T, Helms C, Nelson C, Parker C, Rediker K, Watt
+D, Weiffenbach B, Donis-Keller H (1987): Genetic linkage map of human chromosome
 7 with 63 DNA markers.  \fIProc. Natl. Acad. Sci. USA\fP 84: 8006-8010.
 .XP
-Donis-Keller H, Green P, Helms C, Cartinhour S, Weiffenbach B, Stephens K, 
-Keith T, Bowden D, Smith D, Lander E, Botstein D, Akots G, Rediker K, 
-Gravius T, Brown V, Rising M, Parker C, Powers J, Watt D, Kauffman E, 
-Bricker A, Phipps P, Muller-Kahle H, Fulton T, Ng S, Schumm J, Braman J, 
-Knowlton R, Barker D, Crooks S, Lincoln S, Daly M, Abrahamson J (1987): A genetic 
-linkage map of the human genome. \fICell\fP 51, 319-337.  
+Donis-Keller H, Green P, Helms C, Cartinhour S, Weiffenbach B, Stephens K,
+Keith T, Bowden D, Smith D, Lander E, Botstein D, Akots G, Rediker K,
+Gravius T, Brown V, Rising M, Parker C, Powers J, Watt D, Kauffman E,
+Bricker A, Phipps P, Muller-Kahle H, Fulton T, Ng S, Schumm J, Braman J,
+Knowlton R, Barker D, Crooks S, Lincoln S, Daly M, Abrahamson J (1987): A genetic
+linkage map of the human genome. \fICell\fP 51, 319-337.
 .XP
-Goldgar D, Green P, Parry D, Mulvihill J (1989): Multipoint linkage analysis in 
-Neurofibromatosis Type I: An international collaboration. \fIAm J Human 
-Genetics\fP 44: 6-12.  
+Goldgar D, Green P, Parry D, Mulvihill J (1989): Multipoint linkage analysis in
+Neurofibromatosis Type I: An international collaboration. \fIAm J Human
+Genetics\fP 44: 6-12.
 .XP
-Green P (1988): Rapid construction of multilocus genetic linkage maps.  I. 
+Green P (1988): Rapid construction of multilocus genetic linkage maps.  I.
 Maximum likelihood estimation. (draft manuscript).
 .XP
-Kernighan B, Ritchie D (1978): \fIThe C programming language\fP.  Prentice-Hall.  
+Kernighan B, Ritchie D (1978): \fIThe C programming language\fP.  Prentice-Hall.
 .XP
-Lander E, Green P (1987): Construction of multilocus genetic linkage maps 
+Lander E, Green P (1987): Construction of multilocus genetic linkage maps
 in humans. \fIPNAS\fP 84, 2363-2367.
 .XP
 Ott J (1985): \fIAnalysis of human genetic linkage\fP. Johns Hopkins University Press.
-
-
-
-

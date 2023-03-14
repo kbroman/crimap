@@ -29,9 +29,9 @@ read_orders_file(fp,ad_orders_list)
    orders_list = malloc_orders(num_orders,num_loci);
 
    for(i= 0; i < num_orders; i++){
-     	for(j = 0; j < num_loci; j++){
-     		fscanf(fp,"%hd",&(orders_list->orders[i][j]));
-     	}
+        for(j = 0; j < num_loci; j++){
+            fscanf(fp,"%hd",&(orders_list->orders[i][j]));
+        }
    }
 
    last_orders = orders_list;
@@ -41,16 +41,16 @@ read_orders_file(fp,ad_orders_list)
      orders = malloc_orders(num_orders,num_loci);
 
      for(i= 0; i < num_orders; i++){
-     	for(j = 0; j < num_loci; j++){
-     		fscanf(fp,"%hd",&(orders->orders[i][j]));
-     	}
+        for(j = 0; j < num_loci; j++){
+            fscanf(fp,"%hd",&(orders->orders[i][j]));
+        }
      }
 
      last_orders->next_orders = orders;
      last_orders = orders;
 
    }
-     
+
      *ad_orders_list = orders_list;
 
 }
@@ -77,18 +77,18 @@ write_orders_file(ord_file, orders_list)
      num_objects = 1;
 
      while (orders = orders->next_orders) num_objects++;
-     fprintf(fp,"%d\n\n\n",num_objects); 
+     fprintf(fp,"%d\n\n\n",num_objects);
 
      orders = orders_list;
      while(orders){
-     	fprintf(fp, "%ld  %d\n",orders->num_orders, orders->num_loci);
-     	for(i = 0; i < orders->num_orders; i++){
-     	    for(j = 0; j < orders->num_loci; j++)
-     		fprintf(fp,"%d  ",orders->orders[i][j]);
-     	    fprintf(fp,"\n");
-     	}
-     	fprintf(fp,"\n\n\n");
-     	orders = orders->next_orders;
+        fprintf(fp, "%ld  %d\n",orders->num_orders, orders->num_loci);
+        for(i = 0; i < orders->num_orders; i++){
+            for(j = 0; j < orders->num_loci; j++)
+            fprintf(fp,"%d  ",orders->orders[i][j]);
+            fprintf(fp,"\n");
+        }
+        fprintf(fp,"\n\n\n");
+        orders = orders->next_orders;
      }
      fclose(fp);
 }

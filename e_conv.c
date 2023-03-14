@@ -41,16 +41,16 @@ derive_gen(data, chrom_data, pk_chrom_data)
     p_locus_nums = (SHORT *)our_alloc((ALLOC)MAX_NUM_SWITCHS * sizeof(SHORT));
     p_array = (char **)our_alloc((ALLOC)MAX_NUM_SWITCHS * sizeof(char *));
     for (i_sw = 0; i_sw < MAX_NUM_SWITCHS; i_sw++)
-        p_array[i_sw] = (char *)our_alloc((ALLOC)MAX_NUM_CHROMS * sizeof(char));  
+        p_array[i_sw] = (char *)our_alloc((ALLOC)MAX_NUM_CHROMS * sizeof(char));
     for (i_fam = 0; i_fam < data->num_fams; i_fam++){
         printf("\nfamily id %s",data->fam_id[i_fam]);
         chrom_array = chrom_data->chrom_array[i_fam];
 
         num_mems = data->num_mems[i_fam];
         num_chroms = chrom_data->num_chroms[i_fam];
-        if (num_chroms > MAX_NUM_CHROMS) 
+        if (num_chroms > MAX_NUM_CHROMS)
              printf("\n\nERROR: num_chroms = %d, exceeds max.\n",num_chroms);
-        phase = chrom_data->phase_choices[i_fam]; 
+        phase = chrom_data->phase_choices[i_fam];
 
         ch_vec = (char **)our_alloc((ALLOC)num_mems * sizeof(char *));
         for (i_mem = 0; i_mem < num_mems; i_mem++) {
@@ -58,80 +58,80 @@ derive_gen(data, chrom_data, pk_chrom_data)
              for (j = 0; j < num_chroms; j++) ch_vec[i_mem][j] = '0';
         }
 
-        i_chrom = 0; 
+        i_chrom = 0;
         for (i_mem = 0; i_mem < num_mems; i_mem++){
                   ind = data->ind[i_fam][i_mem];
-                  if (!(ind->moth_id && ind->fath_id)) continue;  
-	          ch_vec[ind->moth][i_chrom++] = '1' ;
-	          ch_vec[ind->fath][i_chrom++] = '1' ;
+                  if (!(ind->moth_id && ind->fath_id)) continue;
+              ch_vec[ind->moth][i_chrom++] = '1' ;
+              ch_vec[ind->fath][i_chrom++] = '1' ;
 /*
 printf("\n%ld %ld %d %d ",ind->moth, ind->fath,i_chrom, i_mem);
 */
         }
 
         for (i_loc = 0; i_loc < data->num_loci; i_loc++){
-/* convert alleles in two passes: first non-zero, then zero */    
+/* convert alleles in two passes: first non-zero, then zero */
            num_alleles = 0;
            for (i_mem = 0; i_mem < num_mems; i_mem++){
                 inda = data->ind[i_fam][i_mem]->a[i_loc];
                 for (k = 0; k < 2; k++) inda[k] = convert(inda[k]);
            }
            all_alleles = 0;
-           for (j = 0; j <= num_alleles; j++) all_alleles += 1 << j;        
+           for (j = 0; j <= num_alleles; j++) all_alleles += 1 << j;
            for (i_mem = 0; i_mem < num_mems; i_mem++){
                 inda = data->ind[i_fam][i_mem]->a[i_loc];
                 for (k = 0; k < 2; k++) if (!inda[k]) inda[k] = all_alleles;
            }
            do {
-	       flag = 0;
+           flag = 0;
                for (i_mem = 0; i_mem < num_mems; i_mem++){
                   ind = data->ind[i_fam][i_mem];
-                  if (!(ind->moth_id && ind->fath_id)) continue;  
+                  if (!(ind->moth_id && ind->fath_id)) continue;
 
-	          s = ind->a[i_loc];
-	          m = data->ind[i_fam][ind->moth]->a[i_loc];
-	          p = data->ind[i_fam][ind->fath]->a[i_loc];
+              s = ind->a[i_loc];
+              m = data->ind[i_fam][ind->moth]->a[i_loc];
+              p = data->ind[i_fam][ind->fath]->a[i_loc];
 
-	          mm = m[0] | m[1];
-	          pp = p[0] | p[1];
-	          for (j = 0; j < 2; j++) d[j] = s[j] & (mm | pp);
-	          flag += compare(s, d);
- 
-	          r = find_common(s, c, mm, pp);
+              mm = m[0] | m[1];
+              pp = p[0] | p[1];
+              for (j = 0; j < 2; j++) d[j] = s[j] & (mm | pp);
+              flag += compare(s, d);
+
+              r = find_common(s, c, mm, pp);
                   flag += compare(s, c);
 
                   if ((!flag) && r == 2){
                      t = s[0];
                      s[0] = s[1];
                      s[1] = t;
-                  }   
-	          r = find_common(m, d, c[0], all_alleles);
+                  }
+              r = find_common(m, d, c[0], all_alleles);
                   if (!r) {
                        printf("\n NONINHERITANCE: family %s,  individ %ld, locus %d",
                        data->fam_id[i_fam], data->ind[i_fam][i_mem]->id, i_loc);
                   }
-                  else flag += compare(m, d); 
-	          r = find_common(p, d, c[1], all_alleles);
+                  else flag += compare(m, d);
+              r = find_common(p, d, c[1], all_alleles);
                   if (!r) {
                        printf("\n NONINHERITANCE: family %s,  individ %ld, locus %d",
                        data->fam_id[i_fam], data->ind[i_fam][i_mem]->id, i_loc);
                   }
                   else flag += compare(p, d);
-	       }
-	    } while (flag);
+           }
+        } while (flag);
 
             i_chrom = 0;
             for (i_mem = 0; i_mem < num_mems; i_mem++){
                   ind = data->ind[i_fam][i_mem];
                   if (!(ind->moth_id && ind->fath_id)) continue;
 
-	          s = ind->a[i_loc];
-	          par[0] = m = data->ind[i_fam][ind->moth]->a[i_loc];
-	          par[1] = p = data->ind[i_fam][ind->fath]->a[i_loc];
-	          mm = m[0] | m[1];
-	          pp = p[0] | p[1];
- 
-	          rs = find_common(s, c, mm, pp);
+              s = ind->a[i_loc];
+              par[0] = m = data->ind[i_fam][ind->moth]->a[i_loc];
+              par[1] = p = data->ind[i_fam][ind->fath]->a[i_loc];
+              mm = m[0] | m[1];
+              pp = p[0] | p[1];
+
+              rs = find_common(s, c, mm, pp);
 
                   if (!rs) {
                        printf("\n NONINHERITANCE: family %s,  individ %ld, locus %d",
@@ -142,18 +142,18 @@ printf("\n%ld %ld %d %d ",ind->moth, ind->fath,i_chrom, i_mem);
                   if (rs == 2) printf("\n PROGRAM ERROR: family %s, individ %ld, locus %d",
                        data->fam_id[i_fam], data->ind[i_fam][i_mem]->id, i_loc);
                   if ((rs == 3) && (s[0] != s[1])) isw = 1;
-                  else isw = 0; 
+                  else isw = 0;
 
                   for (k = 0; k < 2; k++){
-  	             rm0 = find_common(par[k], d, s[k], all_alleles);
+                 rm0 = find_common(par[k], d, s[k], all_alleles);
                      chrom_array[i_chrom + k][i_loc] = phase_code(rm0);
                      if ((rm0 < 3) && isw) {
-        	          rm1 = find_common(par[k], d, s[!k], all_alleles);
+                      rm1 = find_common(par[k], d, s[!k], all_alleles);
                           if (rm1 == 3) chrom_array[i_chrom + k][i_loc] = 'X';
                      }
                      mm = par[!k][0] | par[!k][1];
 /*
-     printf("\n test: %d %d %d %d",par[0][0],par[0][1],par[1][0],par[1][1]);   
+     printf("\n test: %d %d %d %d",par[0][0],par[0][1],par[1][0],par[1][1]);
 
 */
                      if ((aa = !(par[k][0] & mm)) || (bb = !(par[k][1] & mm)))
@@ -162,38 +162,38 @@ printf("\n%ld %ld %d %d ",ind->moth, ind->fath,i_chrom, i_mem);
 
                   }
                  i_chrom += 2;
-	    }
+        }
             i_chrom = 0;
             for (i_mem = 0; i_mem < num_mems; i_mem++){
                ind = data->ind[i_fam][i_mem];
-               if (phase->num_switches >= MAX_NUM_SWITCHS) 
+               if (phase->num_switches >= MAX_NUM_SWITCHS)
                  printf("\n\nERROR: num_switches = %d, exceeds max.\n",
                        phase->num_switches);
                sw_vec = p_array[phase->num_switches];
 
                if (!(ind->moth_id && ind->fath_id)) {
                        copy_n (ch_vec[i_mem], sw_vec, num_chroms);
-                       p_locus_nums[phase->num_switches] = i_loc; 
+                       p_locus_nums[phase->num_switches] = i_loc;
                        phase->num_switches += 1;
                }
 
                else {
-	          s = ind->a[i_loc];
-	          par[0] = m = data->ind[i_fam][ind->moth]->a[i_loc];
-	          par[1] = p = data->ind[i_fam][ind->fath]->a[i_loc];
-	          mm = m[0] | m[1];
-	          pp = p[0] | p[1];
- 
-	          rs = find_common(s, c, mm, pp);
+              s = ind->a[i_loc];
+              par[0] = m = data->ind[i_fam][ind->moth]->a[i_loc];
+              par[1] = p = data->ind[i_fam][ind->fath]->a[i_loc];
+              mm = m[0] | m[1];
+              pp = p[0] | p[1];
+
+              rs = find_common(s, c, mm, pp);
 
                   if ((rs == 3) && (s[0] != s[1])) {
                        copy_n (ch_vec[i_mem], sw_vec, num_chroms);
-                       p_locus_nums[phase->num_switches] = i_loc; 
+                       p_locus_nums[phase->num_switches] = i_loc;
                        phase->num_switches += 1;
                        for (k = 0; k < 2; k++){
-     	                  rm0 = find_common(par[k], d, s[k], all_alleles);
+                          rm0 = find_common(par[k], d, s[k], all_alleles);
                           if (rm0 < 3) {
-        	               rm1 = find_common(par[k], d, s[!k], all_alleles);
+                           rm1 = find_common(par[k], d, s[!k], all_alleles);
                                if (rm1 < 3 && rm0 != rm1)
                                        sw_vec[i_chrom + k] = '1';
                           }
@@ -206,25 +206,25 @@ printf("\n%ld %ld %d %d ",ind->moth, ind->fath,i_chrom, i_mem);
                   }
                }
                flag = 0;
-               for (i_chr = 0; i_chr < num_chroms; i_chr++) 
-                     if (sw_vec[i_chr] != '0' && 
+               for (i_chr = 0; i_chr < num_chroms; i_chr++)
+                     if (sw_vec[i_chr] != '0' &&
                              chrom_array[i_chr][i_loc] != 'X'){
                           flag++;
                           index = i_chr;
-                     }   
+                     }
                if (flag == 1){
                      chrom_array[index][i_loc] = 'X';
                      pk_chrom_array[i_pkchroms + index][i_loc] = 'X';
                      phase->num_switches -= 1;
-               } 
+               }
                else if (flag == 0) phase->num_switches -= 1;
 /*
-      	printf("\n%d \n",flag);
+        printf("\n%d \n",flag);
         for(i_chr=0;i_chr < num_chroms; i_chr++) printf("%c",sw_vec[i_chr]);
 */
               }
-      } /* i_loc */        
-      for (i = 0; i < phase->num_switches; i++) 
+      } /* i_loc */
+      for (i = 0; i < phase->num_switches; i++)
           for (j = 0; j < num_chroms; j++)
               if (p_array[i][j] == '1')
                    pk_chrom_array[i_pkchroms + j][p_locus_nums[i]] = 'X';
@@ -236,10 +236,10 @@ printf("\n%ld %ld %d %d ",ind->moth, ind->fath,i_chrom, i_mem);
            phase->array[i] = (char *)our_alloc((ALLOC)num_chroms * sizeof(char));
            for (j = 0; j < num_chroms; j++)
                phase->array[i][j] = p_array[i][j];
-      } 
+      }
       phase->locus_nums = (SHORT *)our_alloc((ALLOC)phase->num_switches * sizeof(SHORT));
-      for (i = 0; i < phase->num_switches; i++) 
-           phase->locus_nums[i] = p_locus_nums[i];  
+      for (i = 0; i < phase->num_switches; i++)
+           phase->locus_nums[i] = p_locus_nums[i];
    } /* i_fam */
 }
 
@@ -247,19 +247,19 @@ copy_n (s, t, n)
     char *s, *t;
     SHORT n;
 {
-    for (n--; n >= 0; n--) t[n] = s[n]; 
+    for (n--; n >= 0; n--) t[n] = s[n];
 }
 
 char phase_code(r)
     SHORT r;
 {
 
-    if (r == 1) return ('0'); 
+    if (r == 1) return ('0');
     if (r == 2) return ('1');
     if (r == 3) return ('X');
     else return('X');
 }
- 
+
 SHORT find_common(a, c, b0, b1)
     SHORT *a, *c;
     SHORT b0, b1;
@@ -286,7 +286,7 @@ SHORT compare(a, c)
     if ((a[0] == c[0]) && (a[1] == c[1])) return (0);
     num_bits(a, anb);
     num_bits(c, cnb);
-    if (!cnb[0]) return (0); 
+    if (!cnb[0]) return (0);
     if ((cnb[0] < anb[0]) || ((cnb[0] == anb[0]) && cnb[1] < anb[1])){
             a[0] = c[0];
             a[1] = c[1];
@@ -296,7 +296,7 @@ SHORT compare(a, c)
 }
 
 num_bits(a, nb)
-/* nb (a 2-element array) on return gives number of bits in each element of a 
+/* nb (a 2-element array) on return gives number of bits in each element of a
    with smaller number first */
     SHORT *a, *nb;
 {
@@ -323,6 +323,3 @@ SHORT convert(a)
     alleles[num_alleles++] = a;
     return (1 << (num_alleles - 1));
 }
-
-
-

@@ -31,7 +31,7 @@ static GLOBE_FIXED *fixed_dists;
 SHORT *insert_hap(order, num_loci, ad_num_loci, ad_index)
     SHORT *order;
     SHORT num_loci;
-    SHORT *ad_num_loci, *ad_index; 
+    SHORT *ad_num_loci, *ad_index;
 {
     SHORT new_nloci, i, j, k, i_type, j_orig, jz;
     char *our_orders_alloc();
@@ -42,11 +42,11 @@ SHORT *insert_hap(order, num_loci, ad_num_loci, ad_index)
     new_nloci = num_loci;
     if (haplos)
       for (i = 0; i < num_loci; i++)
-	for (i_hap = haplos; i_hap; i_hap = i_hap->next)
-	  if (order[i] == i_hap->loc_list[0]){
-	    new_nloci += i_hap->num_in_hap - 1;
-	    break;
-	  } 
+    for (i_hap = haplos; i_hap; i_hap = i_hap->next)
+      if (order[i] == i_hap->loc_list[0]){
+        new_nloci += i_hap->num_in_hap - 1;
+        break;
+      }
 
     new_order = (SHORT *)our_orders_alloc((ALLOC)new_nloci * sizeof(SHORT));
 
@@ -54,7 +54,7 @@ SHORT *insert_hap(order, num_loci, ad_num_loci, ad_index)
       free_global(theta->num_types, theta->n);
       malloc_global(2-SEX_EQ, new_nloci - 1);
     }
-    
+
     for(i_type = 0; i_type < theta->num_types; i_type++)
       for(j = 0; j < theta->n; j++) FIXED_INTERVALS[i_type][j] = 0;
 
@@ -62,36 +62,36 @@ SHORT *insert_hap(order, num_loci, ad_num_loci, ad_index)
       j_orig = j;
       new_order[j++] = order[i];
       for (i_hap = haplos; i_hap; i_hap = i_hap->next)
-	if (order[i] == i_hap->loc_list[0]){
-	  for (k = 1; k < i_hap->num_in_hap; k++)
-	    new_order[j++] = i_hap->loc_list[k];
-	  for(i_type = 0; i_type < theta->num_types; i_type++)
-	    for(jz = j_orig; jz < j - 1; jz++) {
-	      if (i_hap->fix_zero) {
-		theta->data[i_type][jz][0] = 0.0;
-		FIXED_INTERVALS[i_type][jz] = 1;
-	      }
-	      else theta->data[i_type][jz][0] = 0.1;
-	    }
-	  break;
-	}
+    if (order[i] == i_hap->loc_list[0]){
+      for (k = 1; k < i_hap->num_in_hap; k++)
+        new_order[j++] = i_hap->loc_list[k];
+      for(i_type = 0; i_type < theta->num_types; i_type++)
+        for(jz = j_orig; jz < j - 1; jz++) {
+          if (i_hap->fix_zero) {
+        theta->data[i_type][jz][0] = 0.0;
+        FIXED_INTERVALS[i_type][jz] = 1;
+          }
+          else theta->data[i_type][jz][0] = 0.1;
+        }
+      break;
+    }
       if (i < num_loci - 1) {
-	for(i_type = 0; i_type < theta->num_types; i_type++)
-	  theta->data[i_type][j - 1][0] = 0.1;
-	*ad_index = j - 1; /*only relevant for twopoint */
-	for (i_fixed = fixed_dists; i_fixed; i_fixed = i_fixed->next) 
-	  if ((order[i] == i_fixed->locus1 && order[i+1] == i_fixed->locus2
-	       || order[i] == i_fixed->locus2 && order[i+1] == i_fixed->locus1)
-	      && i_fixed->sex < theta->num_types) {
-	    theta->data[i_fixed->sex][j - 1][0] = i_fixed->dist;
-	    FIXED_INTERVALS[i_fixed->sex][j - 1] = 1;
-	  }
+    for(i_type = 0; i_type < theta->num_types; i_type++)
+      theta->data[i_type][j - 1][0] = 0.1;
+    *ad_index = j - 1; /*only relevant for twopoint */
+    for (i_fixed = fixed_dists; i_fixed; i_fixed = i_fixed->next)
+      if ((order[i] == i_fixed->locus1 && order[i+1] == i_fixed->locus2
+           || order[i] == i_fixed->locus2 && order[i+1] == i_fixed->locus1)
+          && i_fixed->sex < theta->num_types) {
+        theta->data[i_fixed->sex][j - 1][0] = i_fixed->dist;
+        FIXED_INTERVALS[i_fixed->sex][j - 1] = 1;
+      }
       }
     }
     fill_theta();
-    
+
     *ad_num_loci = new_nloci;
-    return (new_order);        
+    return (new_order);
 }
 
 SHORT delete_hap(order, num_loci)
@@ -104,12 +104,12 @@ SHORT delete_hap(order, num_loci)
     if (!haplos) return (num_loci);
     for (i = j = 0; i < num_loci; i++) {
       for (i_hap = haplos; i_hap; i_hap = i_hap->next)
-	for (k = 1; k < i_hap->num_in_hap; k++)
-	  if (order[i] == i_hap->loc_list[k]) goto nexti;
+    for (k = 1; k < i_hap->num_in_hap; k++)
+      if (order[i] == i_hap->loc_list[k]) goto nexti;
       order[j++] = order[i];
     nexti:;
     }
-    return (j);        
+    return (j);
 }
 
 read_haps(hap_list, num_in_hap, fix_zero)
@@ -144,7 +144,7 @@ read_fixed(fixed_list, fixed_dist, num_fixed)
       i_fixed = (struct fixed_dists *)our_orders_alloc((ALLOC)sizeof(struct fixed_dists));
       i_fixed->next = fixed_dists;
       fixed_dists = i_fixed;
-      
+
       fixed_dists->dist = fixed_dist;
       fixed_dists->locus1 = fixed_list[0];
       fixed_dists->locus2 = fixed_list[1];
@@ -172,7 +172,7 @@ print_haps(locus_names)
     printf("\n\n");
     for (i_hap = haplos; i_hap; i_hap = i_hap->next) {
       printf("Haplotyped system (distances%sforced to 0.0):",
-	     i_hap->fix_zero ? " " : " not ");
+         i_hap->fix_zero ? " " : " not ");
       print_names(locus_names, i_hap->loc_list, i_hap->num_in_hap, 3, 1);
     }
     printf("N.B. Only the first locus in each set is retained in the orders");
@@ -188,7 +188,7 @@ print_fixed()
   printf("\n\nFixed recombination fractions (rec. frac., locus numbers, sex):");
   for (i_fixed = fixed_dists; i_fixed; i_fixed = i_fixed->next)
     printf("\n%.3f  %3d %3d  %3d", i_fixed->dist, i_fixed->locus1,
-	   i_fixed->locus2, i_fixed->sex);
+       i_fixed->locus2, i_fixed->sex);
   printf("\n\nN.B. These are fixed only when the loci in question are adjacent.\n");
 }
 
@@ -197,7 +197,7 @@ write_haps(fp)
 {
   struct haplos *i_hap;
   SHORT i;
-  
+
   if (!haplos) return;
   fprintf(fp,"\n\n");
   for (i_hap = haplos; i_hap; i_hap = i_hap->next) {
@@ -216,6 +216,5 @@ write_fixed(fp)
   if(!fixed_dists) return;
   for (i_fixed = fixed_dists; i_fixed; i_fixed = i_fixed->next)
     fprintf(fp, "\nfixed_dist %.3f  %3d %3d  %3d *",
-	    i_fixed->dist, i_fixed->locus1, i_fixed->locus2, i_fixed->sex);
+        i_fixed->dist, i_fixed->locus1, i_fixed->locus2, i_fixed->sex);
 }
-

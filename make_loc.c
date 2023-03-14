@@ -37,10 +37,10 @@ struct loci_orders *get_all_orders(orders,array,num_loci)
 
      /* repeatedly call insert until a list of orders is built */
      for(i = 0; i<num_loci; i++){
-     	orders_temp = orders;
-     	orders = insert(orders_temp, array[i]);
-	
-     	free_orders(orders_temp);
+        orders_temp = orders;
+        orders = insert(orders_temp, array[i]);
+
+        free_orders(orders_temp);
      }
 
      return(orders);
@@ -62,18 +62,18 @@ struct loci_orders *insert(orders,element)
      new_orders_ptr = new_orders;
      for(j = 0; j<orders->num_loci+1; j++){
          for(i = 0; i<orders->num_orders; i++){
-		*new_orders_ptr =
-			(SHORT *)our_orders_alloc((ALLOC) (orders->num_loci+1)
+        *new_orders_ptr =
+            (SHORT *)our_orders_alloc((ALLOC) (orders->num_loci+1)
                             *sizeof(SHORT));
 
-     		put_index( orders->orders[i], *new_orders_ptr,
-     						j,element,orders->num_loci);
-     		new_orders_ptr ++;
-     	}
+            put_index( orders->orders[i], *new_orders_ptr,
+                            j,element,orders->num_loci);
+            new_orders_ptr ++;
+        }
      }
 
      return(make_loci_orders( (orders->num_loci+1),(orders->num_loci+1)*
-     		(orders->num_orders), new_orders) );
+            (orders->num_orders), new_orders) );
 
 }
 
@@ -86,7 +86,7 @@ put_index(array1,array2,slot,element,n)
      SHORT n;
 {
      SHORT i;
-     
+
      for(i = 0; i < slot; i++) array2[i] = array1[i];
 
      array2[slot] = element;

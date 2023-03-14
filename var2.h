@@ -7,4 +7,3 @@ extern struct int_array *sort_intervals;
 extern struct interval_list *all_intervals;
 extern struct tswitch_list *all_tswitchs;
 extern struct flank_list *all_flanks;
-

@@ -1,5 +1,4 @@
-
-extern struct loci_data *recs, *nrecs, *theta, *theta_t, *recs_temp, 
+extern struct loci_data *recs, *nrecs, *theta, *theta_t, *recs_temp,
    *nrecs_temp,  *num_mei, *num_mei_split, *pk_recs, *pk_nrecs, *theta_1_t;
 
 

@@ -17,7 +17,7 @@ malloc_global(num_types,n)
 
      struct loci_data *make_space_loci_data();
      char *our_alloc();
-     
+
      recs = make_space_loci_data(num_types,n);
      nrecs = make_space_loci_data(num_types,n);
      pk_recs = make_space_loci_data(num_types,n);
@@ -30,8 +30,8 @@ malloc_global(num_types,n)
      num_mei = make_space_loci_data(num_types,n);
      num_mei_split = make_space_loci_data(num_types,n);
      FIXED_INTERVALS = (SHORT **)our_alloc((ALLOC)num_types
-					   *sizeof(SHORT *));
-     for (i = 0; i < num_types; i++) 
+                       *sizeof(SHORT *));
+     for (i = 0; i < num_types; i++)
        FIXED_INTERVALS[i] = (SHORT *)our_alloc((ALLOC)n*sizeof(SHORT));
 }
 
@@ -48,14 +48,14 @@ double ****make_array(d1,d2)
      ptr = (double ****)our_alloc((ALLOC)d1*sizeof(double ***));
 
      for(i1 = 0; i1<d1; i1++){
-     	ptr[i1] = (double ***)our_alloc((ALLOC)d2*sizeof(double **));
-     	for(i2 = 0; i2<d2; i2++){
-     		ptr[i1][i2]= (double **)our_alloc((ALLOC)(d2-i2)*sizeof(double *));
-     		for(i3 = 0; i3<(d2-i2); i3++){
-     			ptr[i1][i2][i3] = (double *)our_alloc((ALLOC)NUM_PRE_COMP*
-     						sizeof(double));
-     		}
-     	}
+        ptr[i1] = (double ***)our_alloc((ALLOC)d2*sizeof(double **));
+        for(i2 = 0; i2<d2; i2++){
+            ptr[i1][i2]= (double **)our_alloc((ALLOC)(d2-i2)*sizeof(double *));
+            for(i3 = 0; i3<(d2-i2); i3++){
+                ptr[i1][i2][i3] = (double *)our_alloc((ALLOC)NUM_PRE_COMP*
+                            sizeof(double));
+            }
+        }
      }
 
      return(ptr);
@@ -73,10 +73,10 @@ double ***make_mat(d1,d2)
      ptr = (double ***)our_alloc((ALLOC)d1*sizeof(double ***));
 
      for(i1 = 0; i1<d1; i1++){
-     	ptr[i1] = (double **)our_alloc((ALLOC)d2*sizeof(double *));
-     	for(i2 = 0; i2<d2; i2++){
-     		ptr[i1][i2]= (double *)our_alloc((ALLOC)(d2-i2)*sizeof(double));
-     	}
+        ptr[i1] = (double **)our_alloc((ALLOC)d2*sizeof(double *));
+        for(i2 = 0; i2<d2; i2++){
+            ptr[i1][i2]= (double *)our_alloc((ALLOC)(d2-i2)*sizeof(double));
+        }
      }
 
      return(ptr);
@@ -97,7 +97,7 @@ struct loci_data *make_space_loci_data(num_types,n)
      result->n = n;
      result->data = make_mat(num_types,n);
 
-     return(result);     
+     return(result);
 }
 
 
@@ -109,8 +109,8 @@ free_global(num_types,n)
      SHORT flag, i;
      SHORT free_space_loci_data();
      SHORT our_free();
-     
-     flag = 0;    
+
+     flag = 0;
 
      flag += free_space_loci_data(recs,num_types,n);
      flag += free_space_loci_data(nrecs,num_types,n);
@@ -126,7 +126,7 @@ free_global(num_types,n)
        flag += our_free(FIXED_INTERVALS[i]);
      flag += our_free(FIXED_INTERVALS);
      if(flag){
-     	printf("\n\n\n\nFAILED IN FREE_GLOBAL\n\n\n");
+        printf("\n\n\n\nFAILED IN FREE_GLOBAL\n\n\n");
       }
 
 }
@@ -142,10 +142,10 @@ SHORT free_space_loci_data(ptr, num_types,n)
 
      flag = free_mat(ptr->data,num_types,n);
      flag += our_free(ptr);
-     	
+
      if(flag){
-     	printf("\n\n\n\nFREE_SPACE_LOCI_DATA FAILED\n\n");
-     	return(-1);
+        printf("\n\n\n\nFREE_SPACE_LOCI_DATA FAILED\n\n");
+        return(-1);
      }
      return(0);
 
@@ -164,18 +164,17 @@ SHORT free_mat(ptr,d1,d2)
      flag = 0;
 
      for(i1 = 0; i1<d1; i1++){
-     	for(i2 = 0; i2<d2; i2++){
-     		flag += our_free(ptr[i1][i2]);
-     	}
-     	flag += our_free(ptr[i1]);
+        for(i2 = 0; i2<d2; i2++){
+            flag += our_free(ptr[i1][i2]);
+        }
+        flag += our_free(ptr[i1]);
      }
      flag += our_free(ptr);
 
      if(flag){
-     	printf("\n\n\n\nFREE FAILED IN FREE_MAT\n");
-     	return(-1);
+        printf("\n\n\n\nFREE FAILED IN FREE_MAT\n");
+        return(-1);
      }
 
      return(0);
 }
-

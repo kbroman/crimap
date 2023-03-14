@@ -29,7 +29,7 @@ twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, chrom_data)
      double thet[12];
      SHORT i_loc, j_loc, i_type, i, num_fams, num_tswitch_elim;
      SHORT num_its, num_types;
-     double lods, base, log_like;  
+     double lods, base, log_like;
      double super_like(), super_punk();
      double theta_copy[2];
      SHORT make_fl_sw_int();
@@ -46,7 +46,7 @@ twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, chrom_data)
      TOL = TOL/10.0;
      thet[0]=.001;
      thet[1]=.01;
-     for (i = 1; i < 11; i++) thet[i + 1] = i * .05; 
+     for (i = 1; i < 11; i++) thet[i + 1] = i * .05;
 
      loci_list1 = num_ordered ? ordered_loci : inserted_loci;
      num_loci1 = num_ordered ? num_ordered : num_inserted;
@@ -55,43 +55,43 @@ twopoint(ordered_loci, num_ordered, inserted_loci, num_inserted, chrom_data)
 
      for (i_loc = 0; i_loc < num_loci1; i_loc++){
         pair[0] = loci_list1[i_loc];
-	if (loci_list1 == loci_list2) num_loci2 = i_loc;
- 	for (j_loc = 0; j_loc < num_loci2; j_loc++){
+    if (loci_list1 == loci_list2) num_loci2 = i_loc;
+    for (j_loc = 0; j_loc < num_loci2; j_loc++){
             pair[1] = loci_list2[j_loc];
-	    new_order = insert_hap(pair, 2, &n_loci, &dum_index);
+        new_order = insert_hap(pair, 2, &n_loci, &dum_index);
             log_like = mle(&num_its, new_order, n_loci, chrom_data, &num_tswitch_elim);
-    	    for(i_type = 0; i_type < num_types; i_type++){
+            for(i_type = 0; i_type < num_types; i_type++){
                  theta_copy[i_type] = theta->data[i_type][dum_index][0];
                  theta->data[i_type][dum_index][0] = .5;
-		 fill_theta();
+         fill_theta();
             }
-            base = super_like(num_fams, num_tswitch_elim);   
+            base = super_like(num_fams, num_tswitch_elim);
             lods = log_like - base;
-	    if (lods < PUK_LIKE_TOL && -lods < PUK_LIKE_TOL) continue;
-	    /*second test is to allow for very small neg. lods when PUK_LIKE_TOL = 0.0*/
+        if (lods < PUK_LIKE_TOL && -lods < PUK_LIKE_TOL) continue;
+        /*second test is to allow for very small neg. lods when PUK_LIKE_TOL = 0.0*/
             printf("\n%s   %s  rec. fracs.= ",chrom_data->locus_names[pair[0]],
                   chrom_data->locus_names[pair[1]]);
-    	    for(i_type = 0; i_type < num_types; i_type++)
+            for(i_type = 0; i_type < num_types; i_type++)
                 printf("  %6.3f", theta_copy[i_type]);
             printf(",   lods =  %6.2f", lods);
 
-    	    for(i_type = 0; i_type < num_types; i_type++){
+            for(i_type = 0; i_type < num_types; i_type++){
                 printf("\n");
-     		if (num_types > 1)theta->data[!i_type][dum_index][0] = 
+            if (num_types > 1)theta->data[!i_type][dum_index][0] =
                           theta_copy[!i_type];
                 for (i = 0; i < 12; i++){
                     theta->data[i_type][dum_index][0] = thet[i];
-		    fill_theta();
+            fill_theta();
                     printf(" %6.2f",
-                       super_like(num_fams, num_tswitch_elim) - base);  
-                } 
+                       super_like(num_fams, num_tswitch_elim) - base);
+                }
             }
             printf("\n");
         }  /*  j_loc */
      } /*i_loc */
 
-            
-} 
+
+}
 
 /* this function computes the mle for phase unknown data */
 
@@ -102,7 +102,7 @@ double mle(ad_num_its, order, num_sub_loci, chrom_data, ad_num_tswitch_elim)
      SHORT *ad_num_tswitch_elim;
      struct chrom_data *chrom_data;
 {
-     double log_like, prev_log_like; 
+     double log_like, prev_log_like;
      SHORT num_its, pk_num_its;
      double super_punk(), change_theta();
      SHORT i, j, k;
@@ -110,10 +110,10 @@ double mle(ad_num_its, order, num_sub_loci, chrom_data, ad_num_tswitch_elim)
      SHORT num_fams;
      SHORT num_tswitch_elim;
 
-     if((num_fams = chrom_data->num_fams) == 1 && 
-     		((chrom_data->phase_choices)[0])->num_switches == 0){
-     	find_recs_nrecs(chrom_data,order,num_sub_loci);
-     	return(change_theta(ad_num_its));
+     if((num_fams = chrom_data->num_fams) == 1 &&
+            ((chrom_data->phase_choices)[0])->num_switches == 0){
+        find_recs_nrecs(chrom_data,order,num_sub_loci);
+        return(change_theta(ad_num_its));
      }
      num_tswitch_elim = make_fl_sw_int(order, num_sub_loci, chrom_data);
      alloc_rec_pos(num_fams);
@@ -127,31 +127,31 @@ double mle(ad_num_its, order, num_sub_loci, chrom_data, ad_num_tswitch_elim)
      printf("\nrecs\n");
      print_loci_data(recs);
      printf("\nlog10_like = %f\n",log_like);
-*/  
+*/
      do {
 
        for(k = 0; k < theta->num_types; k++){
-	 for(i = 0; i < theta->n; i++){
-	   for(j = 0; j < theta->n-i; j++){
-	     nrecs->data[k][i][j] = num_mei->data[k][i][j] - recs->
-	       data[k][i][j];
-     	        	}
-               	}
+     for(i = 0; i < theta->n; i++){
+       for(j = 0; j < theta->n-i; j++){
+         nrecs->data[k][i][j] = num_mei->data[k][i][j] - recs->
+           data[k][i][j];
+                    }
+                }
        }
 
-	change_theta(&pk_num_its);
+    change_theta(&pk_num_its);
 /*
         printf("\n num_its %d , pk_num_its %d",num_its, pk_num_its);
-     	printf("\ncurrent mle log10_like = %f\n",log_like);
+        printf("\ncurrent mle log10_like = %f\n",log_like);
 */
-     	prev_log_like = log_like;
+        prev_log_like = log_like;
         log_like = super_punk(num_fams, num_tswitch_elim);
-     	num_its++;
+        num_its++;
      } while( (log_like - prev_log_like) > TOL );
-       
+
      if(log_like < prev_log_like - MAX_DECREASE){
-     	printf("\n\nLOG_LIKE DECREASED IN MLE, DIFF = %f\n\n",
-     		log_like - prev_log_like);
+        printf("\n\nLOG_LIKE DECREASED IN MLE, DIFF = %f\n\n",
+            log_like - prev_log_like);
      }
      *ad_num_its = num_its;
      free_rec_pos();
@@ -243,7 +243,7 @@ SHORT make_fl_sw_int(order, num_sub_loci, chrom_data)
     all_intervals = (struct interval_list *)our_alloc((ALLOC)num_fams*sizeof(struct interval_list));
     all_flanks = (struct flank_list *)our_alloc((ALLOC)num_fams*sizeof(struct flank_list));
     sort_intervals = (struct int_array *)our_alloc((ALLOC)num_fams*sizeof(struct int_array));
-    
+
     reset_int_block();
     reset_tsw_block();
     reset_int_ptr_block();
@@ -267,7 +267,7 @@ SHORT make_fl_sw_int(order, num_sub_loci, chrom_data)
        sort_intervals[i_fam].list = (struct intervals **)our_alloc((ALLOC)
               num_flanks * sizeof(struct intervals *));
        all_flanks[i_fam].num_flanks = ++num_flanks;
-     
+
        if (num_flanks > 1){
          sort_interval_list(num_sub_loci, sort_intervals[i_fam].list,
                       all_intervals + i_fam);
@@ -275,17 +275,17 @@ SHORT make_fl_sw_int(order, num_sub_loci, chrom_data)
                sort_intervals[i_fam].list);
          alloc_se_list(num_flanks - 1);
          find_basis(all_tswitchs + i_fam, num_flanks - 1);
-         compress_basis(all_tswitchs + i_fam, num_flanks - 1, 
+         compress_basis(all_tswitchs + i_fam, num_flanks - 1,
                sort_intervals[i_fam].list);
-/* 
+/*
          printf("\nShuffling: i_fam = %d ", i_fam);
 */
          prev_score = impr_score = score = compute_score(num_flanks);
-         while (impr_score/num_flanks > XRATIO) { 
-            flag = shuffle(all_tswitchs + i_fam, num_flanks, 
+         while (impr_score/num_flanks > XRATIO) {
+            flag = shuffle(all_tswitchs + i_fam, num_flanks,
                   sort_intervals[i_fam].list);
-            if (flag) 
-                compress_basis(all_tswitchs + i_fam, num_flanks - 1, 
+            if (flag)
+                compress_basis(all_tswitchs + i_fam, num_flanks - 1,
                      sort_intervals[i_fam].list);
             score = compute_score(num_flanks);
             impr_score = prev_score - score;
@@ -321,7 +321,7 @@ double super_punk(num_fams, num_tswitch_elim)
 */
    copy(pk_recs, recs);
    make_theta_1_t();
-    
+
    for (i_fam = 0; i_fam < num_fams; i_fam++){
       if ((num_flanks = all_flanks[i_fam].num_flanks) <= 1) continue;
       r_prod[num_flanks - 1] = r_prod_vec;
@@ -330,34 +330,34 @@ double super_punk(num_fams, num_tswitch_elim)
       for (i_fl = num_flanks - 2; i_fl >= 0; i_fl--){
           m = 1 << all_flanks[i_fam].num_tswitchs[i_fl];
           t_prod = r_prod[i_fl] = r_prod_vec + r_prod_ind;
-          r_prod_ind += m; 
+          r_prod_ind += m;
           t_prod1 = r_prod[i_fl + 1];
           m_offset = all_flanks[i_fam].m_right_off[i_fl];
           i_int = sort_intervals[i_fam].list[i_fl];
           sr = i_int->r;
           t1t = theta_1_t->data[i_int->i][i_int->j][i_int->k - i_int->j -1];
 
-	  sh_mask = all_flanks[i_fam].l_sh_mask[i_fl + 1];
-	  id_mask = all_flanks[i_fam].l_id_mask[i_fl + 1];
-	  sh_dir = all_flanks[i_fam].l_sh_dir[i_fl + 1];
-	  rec_mask = all_flanks[i_fam].a_r_int[i_fl];
-	  if (sh_dir) sh_mask >>= 1;
-	  else sh_mask <<= 1;
+      sh_mask = all_flanks[i_fam].l_sh_mask[i_fl + 1];
+      id_mask = all_flanks[i_fam].l_id_mask[i_fl + 1];
+      sh_dir = all_flanks[i_fam].l_sh_dir[i_fl + 1];
+      rec_mask = all_flanks[i_fam].a_r_int[i_fl];
+      if (sh_dir) sh_mask >>= 1;
+      else sh_mask <<= 1;
 
-          if (m_offset) 
-	    for (j = 0; j < m; j++){
-	      if (sh_dir) pj = ((j & sh_mask) << 1) + (j & id_mask);
-	      else pj = ((j & sh_mask) >> 1) + (j & id_mask);
-	      t_prod[j] = (sr != srec[j & rec_mask]) ?
-		t1t * t_prod1[pj] + t_prod1[pj + m_offset]
-		  : t1t * t_prod1[pj + m_offset] + t_prod1[pj];
-	    }
+          if (m_offset)
+        for (j = 0; j < m; j++){
+          if (sh_dir) pj = ((j & sh_mask) << 1) + (j & id_mask);
+          else pj = ((j & sh_mask) >> 1) + (j & id_mask);
+          t_prod[j] = (sr != srec[j & rec_mask]) ?
+        t1t * t_prod1[pj] + t_prod1[pj + m_offset]
+          : t1t * t_prod1[pj + m_offset] + t_prod1[pj];
+        }
           else   /* sh_dir always 0 in this case */
-	    for (j = 0; j < m; j++){
-	      pj = ((j & sh_mask) >> 1) + (j & id_mask);
-	      t_prod[j] = (sr != srec[j & rec_mask]) ?
-		t1t * t_prod1[pj] : t_prod1[pj];
-	    }
+        for (j = 0; j < m; j++){
+          pj = ((j & sh_mask) >> 1) + (j & id_mask);
+          t_prod[j] = (sr != srec[j & rec_mask]) ?
+        t1t * t_prod1[pj] : t_prod1[pj];
+        }
       }
       like = r_prod[0][0];
 
@@ -371,37 +371,37 @@ double super_punk(num_fams, num_tswitch_elim)
           recomb = 0.0;
           r_i_fl = r_prod[i_fl];
 
-	  sh_mask = all_flanks[i_fam].l_sh_mask[i_fl];
-	  id_mask = all_flanks[i_fam].l_id_mask[i_fl];
-	  sh_dir = all_flanks[i_fam].l_sh_dir[i_fl];
-	  rec_mask =all_flanks[i_fam].a_l_int[i_fl];
+      sh_mask = all_flanks[i_fam].l_sh_mask[i_fl];
+      id_mask = all_flanks[i_fam].l_id_mask[i_fl];
+      sh_dir = all_flanks[i_fam].l_sh_dir[i_fl];
+      rec_mask =all_flanks[i_fam].a_l_int[i_fl];
 
-          if (m_offset) 
-	      for (j = 0; j < m; j++) {
-		if (sh_dir) pj = ((j & sh_mask) >> 1) + (j & id_mask);
-		else pj = ((j & sh_mask) << 1) + (j & id_mask);
-		if (sr != srec[j & rec_mask]) {
-		  tt = prod1[pj] * t1t;
-		  prod[j] = tt + prod1[pj + m_offset];
-		  recomb += tt * r_i_fl[j];
-		}
-		else {
-		  tt = prod1[pj + m_offset] * t1t;
-		  prod[j] = tt + prod1[pj];
-		  recomb += tt * r_i_fl[j];
-		}
-	      }
+          if (m_offset)
+          for (j = 0; j < m; j++) {
+        if (sh_dir) pj = ((j & sh_mask) >> 1) + (j & id_mask);
+        else pj = ((j & sh_mask) << 1) + (j & id_mask);
+        if (sr != srec[j & rec_mask]) {
+          tt = prod1[pj] * t1t;
+          prod[j] = tt + prod1[pj + m_offset];
+          recomb += tt * r_i_fl[j];
+        }
+        else {
+          tt = prod1[pj + m_offset] * t1t;
+          prod[j] = tt + prod1[pj];
+          recomb += tt * r_i_fl[j];
+        }
+          }
 
-	  else  /* sh_dir always 1 in this case */
-	      for (j = 0; j < m; j++) {
-		pj = ((j & sh_mask) >> 1) + (j & id_mask);
+      else  /* sh_dir always 1 in this case */
+          for (j = 0; j < m; j++) {
+        pj = ((j & sh_mask) >> 1) + (j & id_mask);
 
-		if (sr != srec[j & rec_mask]) {
-		  prod[j] = tt = t1t * prod1[pj];
-		  recomb += tt * r_i_fl[j];
-		}
-		else prod[j] = prod1[pj];
-	      }
+        if (sr != srec[j & rec_mask]) {
+          prod[j] = tt = t1t * prod1[pj];
+          recomb += tt * r_i_fl[j];
+        }
+        else prod[j] = prod1[pj];
+          }
 
           recs->data[i_int->i][i_int->j][i_int->k - i_int->j - 1] += recomb / like;
           t_prod = prod1;
@@ -409,8 +409,8 @@ double super_punk(num_fams, num_tswitch_elim)
           prod = t_prod;
       }
       if(like == 0.0) {
-	printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
-	exit(1);
+    printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
+    exit(1);
       }
       log_like += log10(like);
       fam_likes[i_fam] = like;
@@ -437,7 +437,7 @@ double super_like(num_fams, num_tswitch_elim)
    log_like = num_tswitch_elim * log10(2.0);
    log_like += get_log_like(pk_recs, pk_nrecs);
    make_theta_1_t();
-    
+
    for (i_fam = 0; i_fam < num_fams; i_fam++){
       if ((num_flanks = all_flanks[i_fam].num_flanks) <= 1) continue;
       prod1[0] = 1.0;
@@ -448,34 +448,34 @@ double super_like(num_fams, num_tswitch_elim)
           i_int = sort_intervals[i_fam].list[i_fl];
           sr = i_int->r;
           t1t = theta_1_t->data[i_int->i][i_int->j][i_int->k - i_int->j -1];
-	  sh_mask = all_flanks[i_fam].l_sh_mask[i_fl + 1];
-	  id_mask = all_flanks[i_fam].l_id_mask[i_fl + 1];
-	  sh_dir = all_flanks[i_fam].l_sh_dir[i_fl + 1];
-	  rec_mask = all_flanks[i_fam].a_r_int[i_fl];
-	  if (sh_dir) sh_mask >>= 1;
-	  else sh_mask <<= 1;
+      sh_mask = all_flanks[i_fam].l_sh_mask[i_fl + 1];
+      id_mask = all_flanks[i_fam].l_id_mask[i_fl + 1];
+      sh_dir = all_flanks[i_fam].l_sh_dir[i_fl + 1];
+      rec_mask = all_flanks[i_fam].a_r_int[i_fl];
+      if (sh_dir) sh_mask >>= 1;
+      else sh_mask <<= 1;
 
           if (!m_offset)
-	      for (j = 0; j < m; j++){
-		pj = ((j & sh_mask) >> 1) + (j & id_mask);
-		prod[j] = (sr != srec[j & rec_mask]) ? t1t * prod1[pj] : prod1[pj];
-	      }
-          else 
-	      for (j = 0; j < m; j++){
-		if (sh_dir) pj = ((j & sh_mask) << 1) + (j & id_mask);
-		else pj = ((j & sh_mask) >> 1) + (j & id_mask);
-		prod[j] = (sr != srec[j & rec_mask]) ?
-		  t1t * prod1[pj] + prod1[pj + m_offset]
-		    : t1t * prod1[pj + m_offset] + prod1[pj];
-	      }
-	  
+          for (j = 0; j < m; j++){
+        pj = ((j & sh_mask) >> 1) + (j & id_mask);
+        prod[j] = (sr != srec[j & rec_mask]) ? t1t * prod1[pj] : prod1[pj];
+          }
+          else
+          for (j = 0; j < m; j++){
+        if (sh_dir) pj = ((j & sh_mask) << 1) + (j & id_mask);
+        else pj = ((j & sh_mask) >> 1) + (j & id_mask);
+        prod[j] = (sr != srec[j & rec_mask]) ?
+          t1t * prod1[pj] + prod1[pj + m_offset]
+            : t1t * prod1[pj + m_offset] + prod1[pj];
+          }
+
           t_prod = prod1;
           prod1 = prod;
           prod = t_prod;
       }
       if(prod1[0] == 0.0) {
-	printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
-	exit(1);
+    printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
+    exit(1);
       }
 
       log_like += log10(prod1[0]);
@@ -488,8 +488,8 @@ SHORT make_intervals_tswitchs(chrom_array,
       num_chroms, order, num_loc, sw_list, ival_list, phase)
 
 /* makes the (unsorted) list of phase unknown intervals for a family's chromosomes,
-  the tswitch list, and increments pk_recs, pk_nrecs, and num_mei for the phase known intervals. 
-*/  
+  the tswitch list, and increments pk_recs, pk_nrecs, and num_mei for the phase known intervals.
+*/
    char **chrom_array;  /* array of phase chromosomes */
    SHORT *order;        /* order of loci being tested */
    SHORT num_chroms, num_loc;    /* # chromosomes in family, # loci in order */
@@ -552,7 +552,7 @@ SHORT make_intervals_tswitchs(chrom_array,
            if ((e2 = chrom_array[i_chrom][order[i_loc]]) != 'X'){
               add_int_flag = 0;
               rank = 5;
-              for (j = 0, i_sw = sw_list->first_tswitch; i_sw; 
+              for (j = 0, i_sw = sw_list->first_tswitch; i_sw;
                        j++, i_sw = i_sw->next_tswitch){
                   chrom_sw = i_sw->chrom_tswitch_index;
                   if ((locus_nums[chrom_sw] == order[i1] || locus_nums[chrom_sw] == order[i_loc]) && array[chrom_sw][i_chrom] == '1'){
@@ -577,14 +577,14 @@ SHORT make_intervals_tswitchs(chrom_array,
                     if (array[chrom_sw][i_chrom1] == '1'){
                        if (locus_nums[chrom_sw] == order[i_loc]) rank |= 8;
                        else rank &= 11;
-                    } 
+                    }
                     else{
                        if (locus_nums[chrom_sw] == order[i_loc]) rank |= 2;
                        else rank &= 14;
-                    } 
+                    }
                   }
-                  else app_int[j] = 0; 
-                
+                  else app_int[j] = 0;
+
                }
                if (!add_int_flag){
                    if (e1 == e2) pk_nrecs->data[sex][i1][i_loc-i1-1] += 1;
@@ -608,13 +608,13 @@ SHORT make_intervals_tswitchs(chrom_array,
                       k = 0;
                       for (j = 0; j < nnsw; j++)
                          if (app_int[j] && (j != tri_sw[num_tri])){
-                            sub_array[num_tri][k++] = j;        
+                            sub_array[num_tri][k++] = j;
                             app_int[j] = 0;
                          }
                       num_tri++;
                       break;
                     }
-                 for (j = 0, i_sw = sw_list->first_tswitch; i_sw; 
+                 for (j = 0, i_sw = sw_list->first_tswitch; i_sw;
                        j++, i_sw = i_sw->next_tswitch)
                     if (app_int[j]){
                        int_ptr = append_interval_ptr(i_sw);
@@ -625,7 +625,7 @@ SHORT make_intervals_tswitchs(chrom_array,
                e1 = e2;
            }
        }
-   } 
+   }
    num_tswitch_elim = 0;
 
    for (i_sw = sw_list->first_tswitch; i_sw; i_sw = i_sw->next_tswitch){
@@ -638,7 +638,7 @@ SHORT make_intervals_tswitchs(chrom_array,
          if (i_sw->num_intervals == 1){
             elim_interval(i_sw->first_ptr->interval, ival_list);
             elim_tswitch(i_sw, sw_list);
-         }  
+         }
    }   /* i_sw */
 
    our_free(tri_sw);
@@ -653,7 +653,7 @@ make_all_flanks(fl_list, sw_list)
     struct tswitch_list *sw_list;
 {
     SHORT i, j, index, min_index, max_index, num_flanks;
-    LINDEX m, m1;  
+    LINDEX m, m1;
     struct tswitchs *i_sw;
     struct interval_ptrs *i_ptr;
     struct flank_tswitchs *i_fl_sw, *i1_fl_sw;
@@ -675,10 +675,10 @@ make_all_flanks(fl_list, sw_list)
     fl_list->l_sh_dir = (char *)our_alloc((ALLOC)num_flanks * sizeof(char));
 
     for (i = 0; i < num_flanks; i++) {
-      fl_list->num_tswitchs[i] = fl_list->m_left_off[i] = fl_list->m_right_off[i] = 0; 
-      fl_list->a_l_int[i] = fl_list->a_r_int[i] = 0; 
-      fl_list->n_in_l_list[i] = fl_list->n_in_r_list[i] = 0; 
-      fl_list->l_id_mask[i] = fl_list->l_sh_mask[i] = fl_list->l_sh_dir[i] = 0; 
+      fl_list->num_tswitchs[i] = fl_list->m_left_off[i] = fl_list->m_right_off[i] = 0;
+      fl_list->a_l_int[i] = fl_list->a_r_int[i] = 0;
+      fl_list->n_in_l_list[i] = fl_list->n_in_r_list[i] = 0;
+      fl_list->l_id_mask[i] = fl_list->l_sh_mask[i] = fl_list->l_sh_dir[i] = 0;
     }
 
     for (i_sw = sw_list->first_tswitch; i_sw; i_sw = i_sw->next_tswitch){
@@ -688,20 +688,20 @@ make_all_flanks(fl_list, sw_list)
             index = i_ptr->interval->sort_index;
             if (index < min_index){
                for (j = min_index; j > index; j--) {
-		 fl_list->num_tswitchs[j] += 1;
-		 fl_list->a_l_int[j] <<= 1;
-		 fl_list->a_r_int[j] <<= 1;
-	       }
+         fl_list->num_tswitchs[j] += 1;
+         fl_list->a_l_int[j] <<= 1;
+         fl_list->a_r_int[j] <<= 1;
+           }
                fl_list->a_l_int[index+1] += 1;
                fl_list->a_r_int[min_index] += 1;
                min_index = index;
             }
             else if (index > max_index){
                for (j = index; j > max_index; j--) {
-		 fl_list->num_tswitchs[j] += 1;
-		 fl_list->a_l_int[j] <<= 1;
-		 fl_list->a_r_int[j] <<= 1;
-	       }
+         fl_list->num_tswitchs[j] += 1;
+         fl_list->a_l_int[j] <<= 1;
+         fl_list->a_r_int[j] <<= 1;
+           }
                fl_list->a_r_int[index] += 1;
                fl_list->a_l_int[max_index + 1] += 1;
                max_index = index;
@@ -715,32 +715,32 @@ make_all_flanks(fl_list, sw_list)
         fl_list->n_in_r_list[max_index] = fl_list->num_tswitchs[max_index];
    }
 
-/* note: we're assuming now that there is only one switch with a given start or  
+/* note: we're assuming now that there is only one switch with a given start or
    end */
 
    for (i = 1; i < num_flanks; i++){
      fl_list->n_in_l_list[i] = fl_list->num_tswitchs[i] - fl_list->n_in_l_list[i];
-     if (fl_list->n_in_l_list[i] < fl_list->num_tswitchs[i]) 
+     if (fl_list->n_in_l_list[i] < fl_list->num_tswitchs[i])
        fl_list->m_right_off[i - 1] = 1 << fl_list->n_in_l_list[i];
      fl_list->n_in_r_list[i - 1] = fl_list->num_tswitchs[i - 1] - fl_list->n_in_r_list[i - 1];
-     if (fl_list->n_in_r_list[i - 1]  < fl_list->num_tswitchs[i - 1]) 
+     if (fl_list->n_in_r_list[i - 1]  < fl_list->num_tswitchs[i - 1])
        fl_list->m_left_off[i] = 1 << fl_list->n_in_r_list[i - 1];
 
      if (fl_list->n_in_l_list[i] < fl_list->n_in_r_list[i - 1]) {
        fl_list->l_id_mask[i] = ~(0L) << fl_list->n_in_r_list[i - 1] + 1 |
-	 ~(~(0L) << fl_list->n_in_l_list[i]);
+     ~(~(0L) << fl_list->n_in_l_list[i]);
        fl_list->l_sh_dir[i] = 1;
      }
      else {
        fl_list->l_id_mask[i] = ~(0L) << fl_list->n_in_l_list[i] + 1|
-	 ~(~(0L) << fl_list->n_in_r_list[i - 1]);
+     ~(~(0L) << fl_list->n_in_r_list[i - 1]);
        fl_list->l_sh_dir[i] = 0;
      }
 
      fl_list->l_sh_mask[i] = ~fl_list->l_id_mask[i] -
        (1 << fl_list->n_in_l_list[i]);
    }
-} 
+}
 
 
 sort_interval_list(num_loc, sort_list, ival_list)
@@ -774,13 +774,13 @@ make_l_rec_pos(i_fl_sw)
        LINDEX m, j, m_add, jm;
        char r;
 
-       pos[0] = 0;	
+       pos[0] = 0;
        for (m = 1; i_fl_sw; i_fl_sw = i_fl_sw->next_tswitch, m <<= 1){
              if (i_fl_sw->in_l_list){
                  r = i_fl_sw->affects_l_interval;
                  m_add = i_fl_sw->m_in_l_list;
                  for (j = 0; j < m; j++){
-                    
+
                      rec[jm = j + m] = r != rec[j];
                      pos[jm] = pos[j] + m_add;
                  }
@@ -799,7 +799,7 @@ make_r_rec_pos(i_fl_sw)
        LINDEX m, j, m_add, jm;
        char r;
 
-       pos[0] = 0;	
+       pos[0] = 0;
        for (m = 1; i_fl_sw; i_fl_sw = i_fl_sw->next_tswitch, m <<= 1){
              if (i_fl_sw->in_r_list){
                  r = i_fl_sw->affects_r_interval;
@@ -823,9 +823,9 @@ make_srec(tm)
      LINDEX tm;
 {
   LINDEX m, j;
-  
+
   srec[0] = 0;
-  for (m = 1; m < tm; m <<= 1) 
+  for (m = 1; m < tm; m <<= 1)
     for (j = 0; j < m; j++)
       srec[j + m] = !srec[j];
 }
@@ -842,17 +842,16 @@ free_fl_sw_int(num_fams)
        our_free(all_flanks[i_fam].num_tswitchs);
        our_free(all_flanks[i_fam].m_left_off);
        our_free(all_flanks[i_fam].m_right_off);
-       our_free(all_flanks[i_fam].a_l_int); 	
-       our_free(all_flanks[i_fam].n_in_l_list); 	
-       our_free(all_flanks[i_fam].l_id_mask); 	
-       our_free(all_flanks[i_fam].a_r_int); 	
-       our_free(all_flanks[i_fam].n_in_r_list); 	
-       our_free(all_flanks[i_fam].l_sh_mask); 	
-       our_free(all_flanks[i_fam].l_sh_dir); 	
+       our_free(all_flanks[i_fam].a_l_int);
+       our_free(all_flanks[i_fam].n_in_l_list);
+       our_free(all_flanks[i_fam].l_id_mask);
+       our_free(all_flanks[i_fam].a_r_int);
+       our_free(all_flanks[i_fam].n_in_r_list);
+       our_free(all_flanks[i_fam].l_sh_mask);
+       our_free(all_flanks[i_fam].l_sh_dir);
     }
     our_free(all_flanks);
     our_free(all_tswitchs);
     our_free(all_intervals);
     our_free(sort_intervals);
 }
-

@@ -57,8 +57,8 @@ struct int_block *alloc_int_block()
 
          int_block = (struct int_block *)our_alloc((ALLOC)sizeof(struct int_block));
          int_block->int_ptr = (struct intervals *)our_alloc
-             (512L * sizeof(struct intervals)); 
-         int_block->next_block = 0; 
+             (512L * sizeof(struct intervals));
+         int_block->next_block = 0;
          return (int_block);
 }
 
@@ -70,7 +70,7 @@ struct intervals *append_interval(first)
     struct int_block *alloc_int_block();
 
     if (int_index > 511){
-       if (!curr_int_block->next_block) 
+       if (!curr_int_block->next_block)
             curr_int_block->next_block = alloc_int_block();
        curr_int_block = curr_int_block->next_block;
        int_index = 0;
@@ -97,8 +97,8 @@ struct tsw_block *alloc_tsw_block()
 
          tsw_block = (struct tsw_block *)our_alloc((ALLOC)sizeof(struct tsw_block));
          tsw_block->tsw_ptr = (struct tswitchs *)our_alloc
-             (512L * sizeof(struct tswitchs)); 
-         tsw_block->next_block = 0; 
+             (512L * sizeof(struct tswitchs));
+         tsw_block->next_block = 0;
          return (tsw_block);
 }
 
@@ -110,7 +110,7 @@ struct tswitchs *append_tswitch(first)
     struct tsw_block *alloc_tsw_block();
 
     if (tsw_index > 511){
-       if (!curr_tsw_block->next_block) 
+       if (!curr_tsw_block->next_block)
             curr_tsw_block->next_block = alloc_tsw_block();
        curr_tsw_block = curr_tsw_block->next_block;
        tsw_index = 0;
@@ -141,8 +141,8 @@ struct int_ptr_block *alloc_int_ptr_block()
          int_ptr_block = (struct int_ptr_block *)our_alloc
              ((ALLOC)sizeof(struct int_ptr_block));
          int_ptr_block->int_ptr = (struct interval_ptrs *)our_alloc
-             (512L * sizeof(struct interval_ptrs)); 
-         int_ptr_block->next_block = 0; 
+             (512L * sizeof(struct interval_ptrs));
+         int_ptr_block->next_block = 0;
          return (int_ptr_block);
 }
 
@@ -154,7 +154,7 @@ struct interval_ptrs *append_interval_ptr(first)
     struct int_ptr_block *alloc_int_ptr_block();
 
     if (int_ptr_index > 511){
-       if (!curr_int_ptr_block->next_block) 
+       if (!curr_int_ptr_block->next_block)
             curr_int_ptr_block->next_block = alloc_int_ptr_block();
        curr_int_ptr_block = curr_int_ptr_block->next_block;
        int_ptr_index = 0;
@@ -182,20 +182,20 @@ struct fl_tsw_block *alloc_fl_tsw_block()
 
          fl_tsw_block = (struct fl_tsw_block *)our_alloc((ALLOC)sizeof(struct fl_tsw_block));
          fl_tsw_block->fl_tsw_ptr = (struct flank_tswitchs *)our_alloc
-             (512L * sizeof(struct flank_tswitchs)); 
-         fl_tsw_block->next_block = 0; 
+             (512L * sizeof(struct flank_tswitchs));
+         fl_tsw_block->next_block = 0;
          return (fl_tsw_block);
 }
 
 struct flank_tswitchs *append_flank_tswitch(first, i_fl)
     struct flank_list *first;
-    SHORT i_fl; 
+    SHORT i_fl;
 {
     struct flank_tswitchs *fl_sw;
     struct fl_tsw_block *alloc_fl_tsw_block();
 
     if (fl_tsw_index > 511){
-       if (!curr_fl_tsw_block->next_block) 
+       if (!curr_fl_tsw_block->next_block)
             curr_fl_tsw_block->next_block = alloc_fl_tsw_block();
        curr_fl_tsw_block = curr_fl_tsw_block->next_block;
        fl_tsw_index = 0;
@@ -233,7 +233,7 @@ make_int_switch_vec()
 }
 
 
-elim_tswitch(tswitch,first) 
+elim_tswitch(tswitch,first)
     struct tswitchs *tswitch;
     struct tswitch_list *first;
 {

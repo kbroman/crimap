@@ -17,9 +17,9 @@ clear(mat,n,num_types)
 
    for(k = 0; k < num_types; k++)
       for(i = 0; i < n; i++)
-   	 for(j = 0; j < n-i; j++)
-   		mat[k][i][j] = 0;
-}		
+     for(j = 0; j < n-i; j++)
+        mat[k][i][j] = 0;
+}
 
 copy(object1, object2)
      struct loci_data *object1, *object2;
@@ -29,9 +29,9 @@ copy(object1, object2)
      for(k = 0; k < object1->num_types; k++)
        for(i = 0; i < object1->n; i++)
          for(j = 0; j < object1->n - i; j++)
-     		object2->data[k][i][j] = object1->data[k][i][j];
+            object2->data[k][i][j] = object1->data[k][i][j];
 
-     object2->n = object1->n;    
+     object2->n = object1->n;
      object2->num_types = object1->num_types;
 }
 
@@ -48,10 +48,10 @@ copy_orders(orders1, orders2)
           sizeof(SHORT *));
 
      for(i = 0; i < orders2->num_orders; i++){
-     	orders2->orders[i] = (SHORT *)our_orders_alloc
+        orders2->orders[i] = (SHORT *)our_orders_alloc
                  ((ALLOC)orders2->num_loci * sizeof(SHORT));
-     	for(j = 0; j < orders2->num_loci; j++)
-     		orders2->orders[i][j] = orders1->orders[i][j];
+        for(j = 0; j < orders2->num_loci; j++)
+            orders2->orders[i][j] = orders1->orders[i][j];
      }
      orders2->next_orders = orders1->next_orders;
 }

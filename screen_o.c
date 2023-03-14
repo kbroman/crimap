@@ -21,20 +21,20 @@ screen_orders(orders,likelihoods,like_tol)
      double max_like;
      SHORT our_orders_free();
 
-     max_like = likelihoods[0];             
+     max_like = likelihoods[0];
      for(i = 1; i < orders->num_orders; i++)
-     	if (likelihoods[i] > max_like) max_like = likelihoods[i];
-     
+        if (likelihoods[i] > max_like) max_like = likelihoods[i];
+
      /* now select orders */
      for(i = 0, j = 0; i < orders->num_orders; i++){
-     	if( likelihoods[i] >= (max_like - like_tol)) {
-     		orders->orders[j] = orders->orders[i];
-     		j++;
-     	}
-	else our_orders_free(orders->orders[i]);
-	
+        if( likelihoods[i] >= (max_like - like_tol)) {
+            orders->orders[j] = orders->orders[i];
+            j++;
+        }
+    else our_orders_free(orders->orders[i]);
+
      }
 
      orders->num_orders = j;
-     
+
 }

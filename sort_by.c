@@ -26,16 +26,16 @@ SHORT *sort_by_info(chrom_data)
      info = count_meioses(chrom_data);
 
      for (i = 0; i < num_loci; i++){
-     	index = 0;
-     	info_max = -1;
-     	for (j = 0; j < num_loci; j++){
-     		if (info_max < info[j]){
-     			info_max = info[j];
-     			index = j;
-     		}
-     	}
-     	info[index] = -1;
-     	new_array[i] = index;
+        index = 0;
+        info_max = -1;
+        for (j = 0; j < num_loci; j++){
+            if (info_max < info[j]){
+                info_max = info[j];
+                index = j;
+            }
+        }
+        info[index] = -1;
+        new_array[i] = index;
      }
      our_free(info);
      return(new_array);
@@ -57,9 +57,8 @@ SHORT *count_meioses(chrom_data)
      for (i_fam = 0; i_fam < chrom_data->num_fams; i_fam++) {
        chrom_array = chrom_data->chrom_array[i_fam];
        for (i = 0; i < chrom_data->num_chroms[i_fam]; i++)
-	 for (j = 0; j < num_loci; j++)
-	   if (chrom_array[i][j] != 'X') info[j] += 1;
+     for (j = 0; j < num_loci; j++)
+       if (chrom_array[i][j] != 'X') info[j] += 1;
      }
      return(info);
 }
-

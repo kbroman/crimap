@@ -30,16 +30,16 @@ read_file(fp,chrom_data)
      for (i = 0; i < num_fams; i++) {
        fscanf(fp,"%s",fam_ids);
        fam_nums_array[i] = (char *)our_alloc((ALLOC)(1 + strlen(fam_ids))
-						     * sizeof(char));
+                             * sizeof(char));
        strcpy(fam_nums_array[i],fam_ids);
      }
      locus_names = (char **)our_alloc((ALLOC)num_loci*sizeof(char *));
 
      for(i = 0; i < num_loci; i++){
-     	fscanf(fp,"%s", loc_name);
-	locus_names[i] = (char *)our_alloc((ALLOC)(1 + strlen(loc_name))
-					     * sizeof(char));
-	strcpy(locus_names[i], loc_name);
+        fscanf(fp,"%s", loc_name);
+    locus_names[i] = (char *)our_alloc((ALLOC)(1 + strlen(loc_name))
+                         * sizeof(char));
+    strcpy(locus_names[i], loc_name);
      }
 
      num_chroms = (SHORT *)our_alloc((ALLOC)num_fams * sizeof(SHORT));
@@ -47,15 +47,15 @@ read_file(fp,chrom_data)
      phase_choices = (struct phase **)our_alloc((ALLOC)num_fams*sizeof(struct phase *));
 
      for(i = 0; i<num_fams; i++){
-     	fscanf(fp, "%hd", num_chroms + i);
-     	chrom_array[i] = (char **)our_alloc((ALLOC)num_chroms[i]*sizeof(char *));
+        fscanf(fp, "%hd", num_chroms + i);
+        chrom_array[i] = (char **)our_alloc((ALLOC)num_chroms[i]*sizeof(char *));
 
-     	for(j = 0; j<num_chroms[i]; j++){
-  		chrom_array[i][j] = (char *)our_alloc((ALLOC)(num_loci+1)*sizeof(char));
-     		fscanf(fp,"%s",chrom_array[i][j]);
-     	}
-	phase_choices[i]=(struct phase *)our_alloc((ALLOC)num_fams*sizeof(struct phase));
-     	read_phase(fp,phase_choices[i], num_chroms[i]);
+        for(j = 0; j<num_chroms[i]; j++){
+        chrom_array[i][j] = (char *)our_alloc((ALLOC)(num_loci+1)*sizeof(char));
+            fscanf(fp,"%s",chrom_array[i][j]);
+        }
+    phase_choices[i]=(struct phase *)our_alloc((ALLOC)num_fams*sizeof(struct phase));
+        read_phase(fp,phase_choices[i], num_chroms[i]);
      }
 
      chrom_data->num_loci = num_loci;
@@ -83,10 +83,10 @@ read_phase(fp, phase, num_chroms)
      locus_nums = (SHORT *)our_alloc((ALLOC)num_switches*sizeof(SHORT));
 
      for(i = 0; i<num_switches; i++){
-     	array[i] = (char *)our_alloc((ALLOC)(num_chroms+1)*sizeof(char));
-     	fscanf(fp,"%hd", &locus_nums[i]);
-     	locus_nums[i]--;
-     	fscanf(fp,"%s", array[i]);
+        array[i] = (char *)our_alloc((ALLOC)(num_chroms+1)*sizeof(char));
+        fscanf(fp,"%hd", &locus_nums[i]);
+        locus_nums[i]--;
+        fscanf(fp,"%s", array[i]);
      }
 
      phase->array = array;
