@@ -17,7 +17,7 @@ typedef long ALLOC;
 typedef short SHORT;
 typedef long ID;
 typedef long LINDEX;
-typedef int INT;
+typedef long INT;
 
 struct loci_orders{
      SHORT num_loci;
