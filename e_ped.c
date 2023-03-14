@@ -410,7 +410,7 @@ double super_punk(num_fams, num_tswitch_elim)
       }
       if(like == 0.0) {
 	printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
-	exit();
+	exit(1);
       }
       log_like += log10(like);
       fam_likes[i_fam] = like;
@@ -475,7 +475,7 @@ double super_like(num_fams, num_tswitch_elim)
       }
       if(prod1[0] == 0.0) {
 	printf("\n\nERROR: 0 likelihood. Check hap_sys0 systems for intralocus recombinants.\n");
-	exit();
+	exit(1);
       }
 
       log_like += log10(prod1[0]);
