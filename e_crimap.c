@@ -9,10 +9,10 @@
 
 #include "defs.h"
 
-#define MAX_LEN_FILE_NAME 80
-#define MAX_NUM_LOCI 200
-#define  MAX_STR_LEN 30
-#define  MAX_HAP_SIZE 40
+#define MAX_LEN_FILE_NAME 800
+#define MAX_NUM_LOCI 20000
+#define  MAX_STR_LEN 3000
+#define  MAX_HAP_SIZE 4000
 
 struct loci_data *recs, *nrecs, *theta, *theta_t, *recs_temp,
    *nrecs_temp,  *num_mei, *num_mei_split, *pk_recs, *pk_nrecs, *theta_1_t;
@@ -41,7 +41,7 @@ SHORT inserted_loci[MAX_NUM_LOCI];
 SHORT *ordered_loci;
 
 /*default values for global parameters*/
-#define D_nb_our_alloc  3000000
+#define D_nb_our_alloc  300000000
 #define D_SEX_EQ 1
 #define D_use_ord_file 0
 #define D_write_ord_file 1

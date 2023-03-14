@@ -6,7 +6,7 @@
 
 #include "defs.h"
 
-#define  MAX_NUM_SWITCHS 1000
+#define  MAX_NUM_SWITCHS 10000
 #define  MAX_NUM_CHROMS 400
 SHORT num_alleles = 0;
 

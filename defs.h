@@ -1,7 +1,7 @@
-#define MAX_LEN_LOC_NAME 40
-#define MAX_LEN_PKU_NAME 80
-#define MAX_LEN_ORDS_NAME 80
-#define NUM_PRE_COMP     20
+#define MAX_LEN_LOC_NAME 400
+#define MAX_LEN_PKU_NAME 800
+#define MAX_LEN_ORDS_NAME 800
+#define NUM_PRE_COMP     200
 #define MAX_DECREASE .000000001
 
 /* MAX_DECREASE is the maximum decrease allowed in an EM step (necessary to allow
