@@ -1,10 +1,12 @@
 ## CRIMAP
 
-Code taken from <http://compgen.rutgers.edu/crimap>
+CRI-MAP is (old) software for linkage map construction with data on
+pedigrees. The version 2.4 (1990-03-26) code taken from
+<http://compgen.rutgers.edu/crimap>
+(in particular <http://compgen.rutgers.edu/downloads/crimap.source.zip>)
+with a few small changes to get it to compile with gcc version 11.3.0.
 
-In particular <http://compgen.rutgers.edu/downloads/crimap.source.zip>
-
-Documentation at <https://saf.bio.caltech.edu/saf_manuals/crimap-doc.html>
+Documentation at <https://saf.bio.caltech.edu/saf_manuals/crimap-doc.html>.
 
 Compile the software with:
 
